@@ -88,6 +88,19 @@
 
     // Load the points when the page loads
     window.onload = loadPoints;
+
+    // Hide or show controls based on user type (Student/House Leader)
+    function showHouseLeaderControls() {
+      document.getElementById('login-screen').style.display = 'none';
+      document.getElementById('house-points').style.display = 'block';
+      document.getElementById('controls').style.display = 'flex'; // Show controls for House Leaders
+    }
+
+    function showStudentView() {
+      document.getElementById('login-screen').style.display = 'none';
+      document.getElementById('house-points').style.display = 'block';
+      document.getElementById('controls').style.display = 'none'; // Hide controls for Students
+    }
   </script>
 
   <!-- Some basic styles for the tracker -->
@@ -162,59 +175,73 @@
       font-size: 24px;
       color: #f0f0f0;
     }
+
+    #house-points {
+      display: none;
+    }
   </style>
 
 </head>
 <body>
 
-  <!-- The House Points Tracker UI -->
-  <div class="bar-container">
-    <div class="house">
-      <img src="https://i.imgur.com/yEJLaKM.png" alt="Gryffindor Crest">
-      <div class="score" id="gryffindor-score">0</div>
-      <div class="bar" id="gryffindor-bar">
-        <div></div>
-      </div>
-    </div>
-    <div class="house">
-      <img src="https://i.imgur.com/3fPEBby.png" alt="Hufflepuff Crest">
-      <div class="score" id="hufflepuff-score">0</div>
-      <div class="bar" id="hufflepuff-bar">
-        <div></div>
-      </div>
-    </div>
-    <div class="house">
-      <img src="https://i.imgur.com/q2ZDGMS.png" alt="Ravenclaw Crest">
-      <div class="score" id="ravenclaw-score">0</div>
-      <div class="bar" id="ravenclaw-bar">
-        <div></div>
-      </div>
-    </div>
-    <div class="house">
-      <img src="https://i.imgur.com/TqEV4ii.png" alt="Slytherin Crest">
-      <div class="score" id="slytherin-score">0</div>
-      <div class="bar" id="slytherin-bar">
-        <div></div>
-      </div>
-    </div>
+  <!-- Login Screen -->
+  <div id="login-screen">
+    <h1>Login as</h1>
+    <button onclick="showStudentView()">Student</button>
+    <span style="margin: 0 10px;">or</span>
+    <button onclick="showHouseLeaderControls()">House Leader</button>
   </div>
 
-  <div class="controls">
-    <div>
-      <button onclick="addPoints('gryffindor', -10)">-</button>
-      <button onclick="addPoints('gryffindor', 10)">+</button>
+  <!-- The House Points Tracker UI -->
+  <div id="house-points">
+    <div class="bar-container">
+      <div class="house">
+        <img src="https://i.imgur.com/yEJLaKM.png" alt="Gryffindor Crest">
+        <div class="score" id="gryffindor-score">0</div>
+        <div class="bar" id="gryffindor-bar">
+          <div></div>
+        </div>
+      </div>
+      <div class="house">
+        <img src="https://i.imgur.com/3fPEBby.png" alt="Hufflepuff Crest">
+        <div class="score" id="hufflepuff-score">0</div>
+        <div class="bar" id="hufflepuff-bar">
+          <div></div>
+        </div>
+      </div>
+      <div class="house">
+        <img src="https://i.imgur.com/q2ZDGMS.png" alt="Ravenclaw Crest">
+        <div class="score" id="ravenclaw-score">0</div>
+        <div class="bar" id="ravenclaw-bar">
+          <div></div>
+        </div>
+      </div>
+      <div class="house">
+        <img src="https://i.imgur.com/TqEV4ii.png" alt="Slytherin Crest">
+        <div class="score" id="slytherin-score">0</div>
+        <div class="bar" id="slytherin-bar">
+          <div></div>
+        </div>
+      </div>
     </div>
-    <div>
-      <button onclick="addPoints('hufflepuff', -10)">-</button>
-      <button onclick="addPoints('hufflepuff', 10)">+</button>
-    </div>
-    <div>
-      <button onclick="addPoints('ravenclaw', -10)">-</button>
-      <button onclick="addPoints('ravenclaw', 10)">+</button>
-    </div>
-    <div>
-      <button onclick="addPoints('slytherin', -10)">-</button>
-      <button onclick="addPoints('slytherin', 10)">+</button>
+
+    <div class="controls" id="controls">
+      <div>
+        <button onclick="addPoints('gryffindor', -10)">-</button>
+        <button onclick="addPoints('gryffindor', 10)">+</button>
+      </div>
+      <div>
+        <button onclick="addPoints('hufflepuff', -10)">-</button>
+        <button onclick="addPoints('hufflepuff', 10)">+</button>
+      </div>
+      <div>
+        <button onclick="addPoints('ravenclaw', -10)">-</button>
+        <button onclick="addPoints('ravenclaw', 10)">+</button>
+      </div>
+      <div>
+        <button onclick="addPoints('slytherin', -10)">-</button>
+        <button onclick="addPoints('slytherin', 10)">+</button>
+      </div>
     </div>
   </div>
 
