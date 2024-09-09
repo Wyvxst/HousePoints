@@ -5,12 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>House Points Tracker</title>
 
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js"></script>
+  <script type="module">
+    // Import Firebase app and the necessary services
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-analytics.js";
+    import { getDatabase, ref, set, get, child } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js";
 
-  <script>
-    // Your web app's Firebase configuration (from Firebase console)
+    // Your web app's Firebase configuration
     const firebaseConfig = {
       apiKey: "AIzaSyCNjpVQ84xLdRVm7pdIUg91HVAyadKnAYo",
       authDomain: "house-points-73a56.firebaseapp.com",
@@ -23,10 +24,70 @@
     };
 
     // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const database = getDatabase(app);
 
-    // Reference to Firebase Database
-    const database = firebase.database();
+    // Initialize points object
+    const points = {
+      gryffindor: 0,
+      hufflepuff: 0,
+      ravenclaw: 0,
+      slytherin: 0
+    };
+
+    // Load points from Firebase
+    function loadPoints() {
+      const dbRef = ref(database);
+      get(child(dbRef, 'points/')).then((snapshot) => {
+        if (snapshot.exists()) {
+          const savedPoints = snapshot.val();
+          points.gryffindor = savedPoints.gryffindor || 0;
+          points.hufflepuff = savedPoints.hufflepuff || 0;
+          points.ravenclaw = savedPoints.ravenclaw || 0;
+          points.slytherin = savedPoints.slytherin || 0;
+          updateBars(); // Update the display of the bars after loading points
+        }
+      }).catch((error) => {
+        console.error(error);
+      });
+    }
+
+    // Save points to Firebase
+    function savePoints() {
+      set(ref(database, 'points/'), points);
+    }
+
+    // Update the points bars
+    function updateBars() {
+      Object.keys(points).forEach(house => {
+        const bar = document.getElementById(`${house}-bar`).firstElementChild;
+        const score = document.getElementById(`${house}-score`);
+        const maxBarHeight = 200; // Maximum height of the bar
+
+        // Adjust maxPoints if any house exceeds it
+        if (points[house] > maxBarHeight) {
+          maxBarHeight = points[house];
+        }
+
+        // Ensure the bars always have a minimum height for visibility
+        const height = Math.max((points[house] / maxBarHeight) * maxBarHeight, 5); // Minimum height of 5px
+        bar.style.height = height + 'px';
+
+        score.textContent = points[house]; // Display current points above the bar
+      });
+    }
+
+    // Function to add points and save to Firebase
+    function addPoints(house, pointsToAdd) {
+      points[house] += pointsToAdd;
+      points[house] = Math.max(0, points[house]); // Ensure points don't go below zero
+      updateBars();  // Update the display
+      savePoints();  // Save the updated points to Firebase
+    }
+
+    // Load the points when the page loads
+    window.onload = loadPoints;
   </script>
 
   <!-- Some basic styles for the tracker -->
@@ -156,69 +217,6 @@
       <button onclick="addPoints('slytherin', 10)">+</button>
     </div>
   </div>
-
-  <!-- JavaScript to handle the house points logic and Firebase integration -->
-  <script>
-    // Initialize points object
-    const points = {
-      gryffindor: 0,
-      hufflepuff: 0,
-      ravenclaw: 0,
-      slytherin: 0
-    };
-
-    let maxPoints = 200; // Starting max points
-
-    // Load points from Firebase (use this function when the page loads)
-    function loadPoints() {
-      firebase.database().ref('points/').once('value').then(snapshot => {
-        const savedPoints = snapshot.val();
-        if (savedPoints) {
-          points.gryffindor = savedPoints.gryffindor || 0;
-          points.hufflepuff = savedPoints.hufflepuff || 0;
-          points.ravenclaw = savedPoints.ravenclaw || 0;
-          points.slytherin = savedPoints.slytherin || 0;
-        }
-        updateBars(); // Update the display of the bars after loading points
-      });
-    }
-
-    // Save points to Firebase (call this function after any update)
-    function savePoints() {
-      firebase.database().ref('points/').set(points);
-    }
-
-    // Update the points bars
-    function updateBars() {
-      Object.keys(points).forEach(house => {
-        const bar = document.getElementById(`${house}-bar`).firstElementChild;
-        const score = document.getElementById(`${house}-score`);
-        const maxBarHeight = 200; // Maximum height of the bar
-
-        // Adjust maxPoints if any house exceeds it
-        if (points[house] > maxPoints) {
-          maxPoints = points[house];
-        }
-
-        // Ensure the bars always have a minimum height for visibility
-        const height = Math.max((points[house] / maxPoints) * maxBarHeight, 5); // Minimum height of 5px
-        bar.style.height = height + 'px';
-
-        score.textContent = points[house]; // Display current points above the bar
-      });
-    }
-
-    // Function to add points and save to Firebase
-    function addPoints(house, pointsToAdd) {
-      points[house] += pointsToAdd;
-      points[house] = Math.max(0, points[house]); // Ensure points don't go below zero
-      updateBars();  // Update the display
-      savePoints();  // Save the updated points to Firebase
-    }
-
-    // Load the points when the page loads
-    window.onload = loadPoints;
-  </script>
 
 </body>
 </html>
