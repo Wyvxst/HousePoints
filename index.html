@@ -11,20 +11,22 @@
 
   <script>
     // Your web app's Firebase configuration (from Firebase console)
-const firebaseConfig = {
-  apiKey: "AIzaSyCNjpVQ84xLdRVm7pdIUg91HVAyadKnAYo",
-  authDomain: "house-points-73a56.firebaseapp.com",
-  databaseURL: "https://house-points-73a56-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "house-points-73a56",
-  storageBucket: "house-points-73a56.appspot.com",
-  messagingSenderId: "870411267637",
-  appId: "1:870411267637:web:add34179db0c649b8c0b7c",
-  measurementId: "G-7ZHZT807QB"
-};
+    const firebaseConfig = {
+      apiKey: "AIzaSyCNjpVQ84xLdRVm7pdIUg91HVAyadKnAYo",
+      authDomain: "house-points-73a56.firebaseapp.com",
+      databaseURL: "https://house-points-73a56-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "house-points-73a56",
+      storageBucket: "house-points-73a56.appspot.com",
+      messagingSenderId: "870411267637",
+      appId: "1:870411267637:web:add34179db0c649b8c0b7c",
+      measurementId: "G-7ZHZT807QB"
+    };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    // Reference to Firebase Database
+    const database = firebase.database();
   </script>
 
   <!-- Some basic styles for the tracker -->
