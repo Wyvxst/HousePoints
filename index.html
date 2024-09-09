@@ -3,10 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title>House Points Tracker</title>
 
-  <!-- Firebase SDK (copy from Firebase console) -->
+  <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js"></script>
 
@@ -26,11 +25,136 @@
     const app = firebase.initializeApp(firebaseConfig);
     const database = firebase.database();
   </script>
+
+  <!-- Some basic styles for the tracker -->
+  <style>
+    body {
+      font-family: 'Cinzel', serif;
+      text-align: center;
+      background-color: #484848;
+      color: #f0f0f0;
+      padding: 20px;
+    }
+
+    .bar-container {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 30px;
+    }
+
+    .house {
+      text-align: center;
+    }
+
+    .house img {
+      width: 80px;
+      margin-bottom: 10px;
+    }
+
+    .bar {
+      width: 100px;
+      background-color: #d3d3d3;
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+      height: 200px;
+    }
+
+    .bar > div {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      border-radius: 10px 10px 0 0;
+    }
+
+    #gryffindor-bar > div { background-color: #ae0001; }
+    #hufflepuff-bar > div { background-color: #ffdb00; }
+    #ravenclaw-bar > div { background-color: #000a90; }
+    #slytherin-bar > div { background-color: #2a623d; }
+
+    .controls {
+      display: flex;
+      justify-content: space-around;
+    }
+
+    button {
+      padding: 8px 12px;
+      margin: 5px;
+      font-size: 16px;
+      background-color: #333;
+      color: #f0f0f0;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #555;
+    }
+
+    .score {
+      margin-bottom: 10px;
+      font-weight: bold;
+      font-size: 24px;
+      color: #f0f0f0;
+    }
+  </style>
+
 </head>
 <body>
 
-  <!-- Your HTML content like the score tracker, buttons, etc. -->
+  <!-- The House Points Tracker UI -->
+  <div class="bar-container">
+    <div class="house">
+      <img src="https://via.placeholder.com/80?text=Gryffindor" alt="Gryffindor Crest">
+      <div class="score" id="gryffindor-score">0</div>
+      <div class="bar" id="gryffindor-bar">
+        <div></div>
+      </div>
+    </div>
+    <div class="house">
+      <img src="https://via.placeholder.com/80?text=Hufflepuff" alt="Hufflepuff Crest">
+      <div class="score" id="hufflepuff-score">0</div>
+      <div class="bar" id="hufflepuff-bar">
+        <div></div>
+      </div>
+    </div>
+    <div class="house">
+      <img src="https://via.placeholder.com/80?text=Ravenclaw" alt="Ravenclaw Crest">
+      <div class="score" id="ravenclaw-score">0</div>
+      <div class="bar" id="ravenclaw-bar">
+        <div></div>
+      </div>
+    </div>
+    <div class="house">
+      <img src="https://via.placeholder.com/80?text=Slytherin" alt="Slytherin Crest">
+      <div class="score" id="slytherin-score">0</div>
+      <div class="bar" id="slytherin-bar">
+        <div></div>
+      </div>
+    </div>
+  </div>
 
+  <div class="controls">
+    <div>
+      <button onclick="addPoints('gryffindor', -10)">-</button>
+      <button onclick="addPoints('gryffindor', 10)">+</button>
+    </div>
+    <div>
+      <button onclick="addPoints('hufflepuff', -10)">-</button>
+      <button onclick="addPoints('hufflepuff', 10)">+</button>
+    </div>
+    <div>
+      <button onclick="addPoints('ravenclaw', -10)">-</button>
+      <button onclick="addPoints('ravenclaw', 10)">+</button>
+    </div>
+    <div>
+      <button onclick="addPoints('slytherin', -10)">-</button>
+      <button onclick="addPoints('slytherin', 10)">+</button>
+    </div>
+  </div>
+
+  <!-- JavaScript to handle the house points logic and Firebase integration -->
   <script>
     // Initialize points object
     const points = {
@@ -92,268 +216,6 @@
     // Load the points when the page loads
     window.onload = loadPoints;
   </script>
-  
-   <!-- Link to Google Fonts for a Harry Potter-style font -->
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap" rel="stylesheet">
-  <style>
-    body {
-      font-family: 'Cinzel', serif; /* Applying the magical font */
-      text-align: center;
-      background-color: #484848;
-      color: #f0f0f0;
-      padding: 20px;
-    }
-    .bar-container {
-      display: flex;
-      justify-content: space-around;
-      margin-bottom: 30px;
-    }
-    .house {
-      text-align: center;
-    }
-    .house img {
-      width: 80px;
-      margin-bottom: 10px;
-    }
-    .bar {
-      width: 100px;
-      background-color: #d3d3d3;
-      border-radius: 10px;
-      overflow: hidden;
-      position: relative;
-      height: 200px;
-    }
-    .bar > div {
-      position: absolute;
-      bottom: 0;
-      width: 100%;
-      border-radius: 10px 10px 0 0;
-    }
-    /* House colors */
-    #gryffindor-bar > div {
-      background-color: #ae0001;
-    }
-    #hufflepuff-bar > div {
-      background-color: #ffdb00;
-    }
-    #ravenclaw-bar > div {
-      background-color: #000a90;
-    }
-    #slytherin-bar > div {
-      background-color: #2a623d;
-    }
-    .controls {
-      display: flex;
-      justify-content: space-around;
-    }
-    button {
-      padding: 8px 12px;
-      margin: 5px;
-      font-size: 16px;
-      background-color: #333;
-      color: #f0f0f0;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #555;
-    }
-    .score {
-      margin-bottom: 10px;
-      font-weight: bold;
-      font-size: 24px;
-      color: #f0f0f0; /* White color for numbers to contrast with the dark background */
-    }
-    /* Hide the app by default until login */
-    #app, #leader-controls {
-      display: none;
-    }
-    .login-screen {
-      margin-top: 50px;
-    }
-    .login-screen button {
-      padding: 10px 20px;
-      margin: 10px;
-      font-size: 18px;
-      font-family: 'Cinzel', serif; /* Cool font for buttons */
-    }
-    .or-text {
-      display: inline;
-      font-size: 14px; /* Smaller size */
-      font-family: Arial, sans-serif; /* Simpler font for 'or' */
-      margin: 0 10px; /* Space between buttons and 'or' */
-    }
-    .login-options {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    /* Style for password input */
-    .password-input {
-      font-family: 'Cinzel', serif;
-      background-color: #333;
-      border: none;
-      border-radius: 5px;
-      color: #f0f0f0;
-      padding: 10px;
-      font-size: 18px;
-      width: 200px;
-      text-align: center;
-    }
-    .password-container {
-      display: flex;
-      align-items: center; /* Ensures alignment */
-      justify-content: center;
-      margin-top: 20px;
-    }
-    .login-arrow {
-      font-size: 24px;
-      background-color: #333;
-      color: #f0f0f0;
-      border: none;
-      border-radius: 5px;
-      padding: 10px 15px;
-      margin-left: 10px;
-      cursor: pointer;
-      display: flex;
-      align-items: center; /* Aligns arrow inside button */
-      justify-content: center;
-    }
-    .login-arrow:hover {
-      background-color: #555;
-    }
-  </style>
-</head>
-<body>
-
-  <!-- Login Screen -->
-  <div id="login-screen" class="login-screen">
-    <div class="login-options">
-      <button onclick="showStudentView()">Student</button>
-      <span class="or-text">or</span>
-      <button onclick="showLeaderLogin()">House Leader</button>
-    </div>
-
-    <!-- Password input for House Leaders -->
-    <div id="leader-login" class="password-container" style="display: none;">
-      <input type="password" id="password" class="password-input" placeholder="Password">
-      <button class="login-arrow" onclick="checkPassword()">→</button>
-      <p id="error-message" style="color: red; display: none;">Incorrect password. Try again.</p>
-    </div>
-  </div>
-
-  <!-- Main App -->
-  <div id="app">
-    <div class="bar-container">
-      <div class="house">
-        <img src="https://via.placeholder.com/80?text=Gryffindor" alt="Gryffindor Crest">
-        <div class="score" id="gryffindor-score">0</div>
-        <div class="bar" id="gryffindor-bar">
-          <div></div>
-        </div>
-      </div>
-      <div class="house">
-        <img src="https://via.placeholder.com/80?text=Hufflepuff" alt="Hufflepuff Crest">
-        <div class="score" id="hufflepuff-score">0</div>
-        <div class="bar" id="hufflepuff-bar">
-          <div></div>
-        </div>
-      </div>
-      <div class="house">
-        <img src="https://via.placeholder.com/80?text=Ravenclaw" alt="Ravenclaw Crest">
-        <div class="score" id="ravenclaw-score">0</div>
-        <div class="bar" id="ravenclaw-bar">
-          <div></div>
-        </div>
-      </div>
-      <div class="house">
-        <img src="https://via.placeholder.com/80?text=Slytherin" alt="Slytherin Crest">
-        <div class="score" id="slytherin-score">0</div>
-        <div class="bar" id="slytherin-bar">
-          <div></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Controls for House Leaders only -->
-    <div id="leader-controls" class="controls">
-      <div>
-        <button onclick="addPoints('gryffindor', -10)">-</button>
-        <button onclick="addPoints('gryffindor', 10)">+</button>
-      </div>
-      <div>
-        <button onclick="addPoints('hufflepuff', -10)">-</button>
-        <button onclick="addPoints('hufflepuff', 10)">+</button>
-      </div>
-      <div>
-        <button onclick="addPoints('ravenclaw', -10)">-</button>
-        <button onclick="addPoints('ravenclaw', 10)">+</button>
-      </div>
-      <div>
-        <button onclick="addPoints('slytherin', -10)">-</button>
-        <button onclick="addPoints('slytherin', 10)">+</button>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    const points = {
-      gryffindor: 0,
-      hufflepuff: 0,
-      ravenclaw: 0,
-      slytherin: 0
-    };
-
-    let maxPoints = 200; // Starting max points
-
-    function updateBars() {
-      Object.keys(points).forEach(house => {
-        const bar = document.getElementById(`${house}-bar`).firstElementChild;
-        const score = document.getElementById(`${house}-score`);
-        const maxBarHeight = 200; // Maximum height of the bar
-
-        // Adjust maxPoints if any house exceeds it
-        if (points[house] > maxPoints) {
-          maxPoints = points[house];
-        }
-
-        // Ensure the bars always have a minimum height for visibility
-        const height = Math.max((points[house] / maxPoints) * maxBarHeight, 5); // Minimum height of 5px
-        bar.style.height = height + 'px';
-
-        score.textContent = points[house]; // Display current points above the bar
-      });
-    }
-
-    function addPoints(house, pointsToAdd) {
-      points[house] += pointsToAdd;
-      points[house] = Math.max(0, points[house]); // Ensure points don't go below zero
-      updateBars();
-    }
-
-    // Handle the login logic
-    function showStudentView() {
-      document.getElementById('login-screen').style.display = 'none';
-      document.getElementById('app').style.display = 'block';
-    }
-
-    function showLeaderLogin() {
-      document.getElementById('leader-login').style.display = 'flex';
-    }
-
-    function checkPassword() {
-      const password = document.getElementById('password').value;
-      if (password === 'Albus') {
-        document.getElementById('login-screen').style.display = 'none';
-        document.getElementById('app').style.display = 'block';
-        document.getElementById('leader-controls').style.display = 'flex'; // Show the controls for leaders
-      } else {
-        document.getElementById('error-message').style.display = 'block'; // Show error message
-      }
-    }
-  </script>
 
 </body>
 </html>
-
