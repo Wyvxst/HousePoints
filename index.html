@@ -245,4 +245,25 @@
 
     // Handle the login logic
     function showStudentView() {
-      document.getElementById
+      document.getElementById('login-screen').style.display = 'none';
+      document.getElementById('app').style.display = 'block';
+    }
+
+    function showLeaderLogin() {
+      document.getElementById('leader-login').style.display = 'flex';
+    }
+
+    function checkPassword() {
+      const password = document.getElementById('password').value;
+      if (password === 'Albus') {
+        document.getElementById('login-screen').style.display = 'none';
+        document.getElementById('app').style.display = 'block';
+        document.getElementById('leader-controls').style.display = 'flex'; // Show the controls for leaders
+      } else {
+        document.getElementById('error-message').style.display = 'block'; // Show error message
+      }
+    }
+  </script>
+
+</body>
+</html>
