@@ -4,130 +4,28 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>House Points Tracker</title>
-
-  <script type="module">
-    // Import Firebase app and the necessary services
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
-    import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-analytics.js";
-    import { getDatabase, ref, set, get, child } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js";
-
-    // Your web app's Firebase configuration
-    const firebaseConfig = {
-      apiKey: "AIzaSyCNjpVQ84xLdRVm7pdIUg91HVAyadKnAYo",
-      authDomain: "house-points-73a56.firebaseapp.com",
-      databaseURL: "https://house-points-73a56-default-rtdb.europe-west1.firebasedatabase.app",
-      projectId: "house-points-73a56",
-      storageBucket: "house-points-73a56.appspot.com",
-      messagingSenderId: "870411267637",
-      appId: "1:870411267637:web:add34179db0c649b8c0b7c",
-      measurementId: "G-7ZHZT807QB"
-    };
-
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const analytics = getAnalytics(app);
-    const database = getDatabase(app);
-
-    // Initialize points object
-    const points = {
-      gryffindor: 0,
-      hufflepuff: 0,
-      ravenclaw: 0,
-      slytherin: 0
-    };
-
-    // Load points from Firebase
-    function loadPoints() {
-      const dbRef = ref(database);
-      get(child(dbRef, 'points/')).then((snapshot) => {
-        if (snapshot.exists()) {
-          const savedPoints = snapshot.val();
-          points.gryffindor = savedPoints.gryffindor || 0;
-          points.hufflepuff = savedPoints.hufflepuff || 0;
-          points.ravenclaw = savedPoints.ravenclaw || 0;
-          points.slytherin = savedPoints.slytherin || 0;
-          updateBars(); // Update the display of the bars after loading points
-        }
-      }).catch((error) => {
-        console.error(error);
-      });
-    }
-
-    // Save points to Firebase
-    function savePoints() {
-      set(ref(database, 'points/'), points);
-    }
-
-    // Update the points bars
-    function updateBars() {
-      Object.keys(points).forEach(house => {
-        const bar = document.getElementById(`${house}-bar`).firstElementChild;
-        const score = document.getElementById(`${house}-score`);
-        const maxBarHeight = 200; // Maximum height of the bar
-
-        // Adjust maxPoints if any house exceeds it
-        if (points[house] > maxBarHeight) {
-          maxBarHeight = points[house];
-        }
-
-        // Ensure the bars always have a minimum height for visibility
-        const height = Math.max((points[house] / maxBarHeight) * maxBarHeight, 5); // Minimum height of 5px
-        bar.style.height = height + 'px';
-
-        score.textContent = points[house]; // Display current points above the bar
-      });
-    }
-
-    // Function to add points and save to Firebase
-    function addPoints(house, pointsToAdd) {
-      points[house] += pointsToAdd;
-      points[house] = Math.max(0, points[house]); // Ensure points don't go below zero
-      updateBars();  // Update the display
-      savePoints();  // Save the updated points to Firebase
-    }
-
-    // Load the points when the page loads
-    window.onload = loadPoints;
-
-    // Hide or show controls based on user type (Student/House Leader)
-    function showHouseLeaderControls() {
-      document.getElementById('login-screen').style.display = 'none';
-      document.getElementById('house-points').style.display = 'block';
-      document.getElementById('controls').style.display = 'flex'; // Show controls for House Leaders
-    }
-
-    function showStudentView() {
-      document.getElementById('login-screen').style.display = 'none';
-      document.getElementById('house-points').style.display = 'block';
-      document.getElementById('controls').style.display = 'none'; // Hide controls for Students
-    }
-  </script>
-
-  <!-- Some basic styles for the tracker -->
+  <!-- Link to Google Fonts for a Harry Potter-style font -->
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap" rel="stylesheet">
   <style>
     body {
-      font-family: 'Cinzel', serif;
+      font-family: 'Cinzel', serif; /* Applying the magical font */
       text-align: center;
       background-color: #484848;
       color: #f0f0f0;
       padding: 20px;
     }
-
     .bar-container {
       display: flex;
       justify-content: space-around;
       margin-bottom: 30px;
     }
-
     .house {
       text-align: center;
     }
-
     .house img {
       width: 80px;
       margin-bottom: 10px;
     }
-
     .bar {
       width: 100px;
       background-color: #d3d3d3;
@@ -136,24 +34,29 @@
       position: relative;
       height: 200px;
     }
-
     .bar > div {
       position: absolute;
       bottom: 0;
       width: 100%;
       border-radius: 10px 10px 0 0;
     }
-
-    #gryffindor-bar > div { background-color: #ae0001; }
-    #hufflepuff-bar > div { background-color: #ffdb00; }
-    #ravenclaw-bar > div { background-color: #000a90; }
-    #slytherin-bar > div { background-color: #2a623d; }
-
+    /* House colors */
+    #gryffindor-bar > div {
+      background-color: #ae0001;
+    }
+    #hufflepuff-bar > div {
+      background-color: #ffdb00;
+    }
+    #ravenclaw-bar > div {
+      background-color: #000a90;
+    }
+    #slytherin-bar > div {
+      background-color: #2a623d;
+    }
     .controls {
       display: flex;
       justify-content: space-around;
     }
-
     button {
       padding: 8px 12px;
       margin: 5px;
@@ -164,60 +67,119 @@
       border-radius: 5px;
       cursor: pointer;
     }
-
     button:hover {
       background-color: #555;
     }
-
     .score {
       margin-bottom: 10px;
       font-weight: bold;
       font-size: 24px;
-      color: #f0f0f0;
+      color: #f0f0f0; /* White color for numbers to contrast with the dark background */
     }
-
-    #house-points {
+    /* Hide the app by default until login */
+    #app, #leader-controls {
       display: none;
     }
+    .login-screen {
+      margin-top: 50px;
+    }
+    .login-screen button {
+      padding: 10px 20px;
+      margin: 10px;
+      font-size: 18px;
+      font-family: 'Cinzel', serif; /* Cool font for buttons */
+    }
+    .or-text {
+      display: inline;
+      font-size: 14px; /* Smaller size */
+      font-family: Arial, sans-serif; /* Simpler font for 'or' */
+      margin: 0 10px; /* Space between buttons and 'or' */
+    }
+    .login-options {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    /* Style for password input */
+    .password-input {
+      font-family: 'Cinzel', serif;
+      background-color: #333;
+      border: none;
+      border-radius: 5px;
+      color: #f0f0f0;
+      padding: 10px;
+      font-size: 18px;
+      width: 200px;
+      text-align: center;
+    }
+    .password-container {
+      display: flex;
+      align-items: center; /* Ensures alignment */
+      justify-content: center;
+      margin-top: 20px;
+    }
+    .login-arrow {
+      font-size: 24px;
+      background-color: #333;
+      color: #f0f0f0;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 15px;
+      margin-left: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center; /* Aligns arrow inside button */
+      justify-content: center;
+    }
+    .login-arrow:hover {
+      background-color: #555;
+    }
   </style>
-
 </head>
 <body>
 
   <!-- Login Screen -->
-  <div id="login-screen">
-    <h1>Login as</h1>
-    <button onclick="showStudentView()">Student</button>
-    <span style="margin: 0 10px;">or</span>
-    <button onclick="showHouseLeaderControls()">House Leader</button>
+  <div id="login-screen" class="login-screen">
+    <div class="login-options">
+      <button onclick="showStudentView()">Student</button>
+      <span class="or-text">or</span>
+      <button onclick="showLeaderLogin()">House Leader</button>
+    </div>
+
+    <!-- Password input for House Leaders -->
+    <div id="leader-login" class="password-container" style="display: none;">
+      <input type="password" id="password" class="password-input" placeholder="Password">
+      <button class="login-arrow" onclick="checkPassword()">→</button>
+      <p id="error-message" style="color: red; display: none;">Incorrect password. Try again.</p>
+    </div>
   </div>
 
-  <!-- The House Points Tracker UI -->
-  <div id="house-points">
+  <!-- Main App -->
+  <div id="app">
     <div class="bar-container">
       <div class="house">
-        <img src="https://i.imgur.com/yEJLaKM.png" alt="Gryffindor Crest">
+        <img src="https://via.placeholder.com/80?text=Gryffindor" alt="Gryffindor Crest">
         <div class="score" id="gryffindor-score">0</div>
         <div class="bar" id="gryffindor-bar">
           <div></div>
         </div>
       </div>
       <div class="house">
-        <img src="https://i.imgur.com/3fPEBby.png" alt="Hufflepuff Crest">
+        <img src="https://via.placeholder.com/80?text=Hufflepuff" alt="Hufflepuff Crest">
         <div class="score" id="hufflepuff-score">0</div>
         <div class="bar" id="hufflepuff-bar">
           <div></div>
         </div>
       </div>
       <div class="house">
-        <img src="https://i.imgur.com/q2ZDGMS.png" alt="Ravenclaw Crest">
+        <img src="https://via.placeholder.com/80?text=Ravenclaw" alt="Ravenclaw Crest">
         <div class="score" id="ravenclaw-score">0</div>
         <div class="bar" id="ravenclaw-bar">
           <div></div>
         </div>
       </div>
       <div class="house">
-        <img src="https://i.imgur.com/TqEV4ii.png" alt="Slytherin Crest">
+        <img src="https://via.placeholder.com/80?text=Slytherin" alt="Slytherin Crest">
         <div class="score" id="slytherin-score">0</div>
         <div class="bar" id="slytherin-bar">
           <div></div>
@@ -225,7 +187,8 @@
       </div>
     </div>
 
-    <div class="controls" id="controls">
+    <!-- Controls for House Leaders only -->
+    <div id="leader-controls" class="controls">
       <div>
         <button onclick="addPoints('gryffindor', -10)">-</button>
         <button onclick="addPoints('gryffindor', 10)">+</button>
@@ -245,5 +208,41 @@
     </div>
   </div>
 
-</body>
-</html>
+  <script>
+    const points = {
+      gryffindor: 0,
+      hufflepuff: 0,
+      ravenclaw: 0,
+      slytherin: 0
+    };
+
+    let maxPoints = 200; // Starting max points
+
+    function updateBars() {
+      Object.keys(points).forEach(house => {
+        const bar = document.getElementById(`${house}-bar`).firstElementChild;
+        const score = document.getElementById(`${house}-score`);
+        const maxBarHeight = 200; // Maximum height of the bar
+
+        // Adjust maxPoints if any house exceeds it
+        if (points[house] > maxPoints) {
+          maxPoints = points[house];
+        }
+
+        // Ensure the bars always have a minimum height for visibility
+        const height = Math.max((points[house] / maxPoints) * maxBarHeight, 5); // Minimum height of 5px
+        bar.style.height = height + 'px';
+
+        score.textContent = points[house]; // Display current points above the bar
+      });
+    }
+
+    function addPoints(house, pointsToAdd) {
+      points[house] += pointsToAdd;
+      points[house] = Math.max(0, points[house]); // Ensure points don't go below zero
+      updateBars();
+    }
+
+    // Handle the login logic
+    function showStudentView() {
+      document.getElementById
