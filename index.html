@@ -137,17 +137,17 @@
   </style>
 <script>
   window.onload = function() {
-    fetch('https://api.kvstore.io/collections/points/items/points_key', {
+    fetch('https://api.jsonbin.io/v3/b/66e2088fe41b4d34e42dc83d/latest', {
       method: 'GET',
       headers: {
-        'kvstoreio_api_key': '5f7c76ca1afa32a84dbe16159ca1ed441c3a3697d12b1462ab4b1ffaf2e68fe7'
+        'X-Master-Key': '$2a$10$uhtnjcWgpl1Vc8HIYoeWN.8gXuKAmmlF5L6sC39lRGxF9djITQpLK'
       }
     })
       .then(response => {
           if (!response.ok) {
               throw new Error('Network response was not ok');
           }
-          alert(response);
+          alert(response.json());
       })
       .then(data => {
           console.log(data); // Handle the data
