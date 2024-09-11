@@ -280,11 +280,27 @@
         const ravenclawPlus = document.getElementById('R+10');
         const slytherinMinus = document.getElementById('S-10');
         const slytherinPlus = document.getElementById('S+10');
+        gryffindorMinus.disabled = true;
+        hufflepuffMinus.disabled = true;
+        ravenclawMinus.disabled = true;
+        slytherinMinus.disabled = true;
+        gryffindorPlus.disabled = true;
+        hufflepuffPlus.disabled = true;
+        ravenclawPlus.disabled = true;
+        slytherinPlus.disabled = true;
         let req = new XMLHttpRequest();
 
         req.onreadystatechange = () => {
           if (req.readyState == XMLHttpRequest.DONE) {
             console.log(req.responseText);
+            gryffindorMinus.disabled = false;
+            hufflepuffMinus.disabled = false;
+            ravenclawMinus.disabled = false;
+            slytherinMinus.disabled = false;
+            gryffindorPlus.disabled = false;
+            hufflepuffPlus.disabled = false;
+            ravenclawPlus.disabled = false;
+            slytherinPlus.disabled = false;
           }
         };
         
