@@ -147,10 +147,11 @@
           if (!response.ok) {
               throw new Error('Network response was not ok');
           }
-          alert(response);
+          return response.json();
       })
       .then(data => {
-          console.log(data); // Handle the data
+          console.log(data);
+        alert(data.houses.Hufflepuff)
       })
       .catch(error => {
           console.error('There has been a problem with your fetch operation:', error);
