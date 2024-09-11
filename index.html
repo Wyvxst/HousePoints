@@ -152,13 +152,13 @@
       .then(data => {
           console.log(data);
         const gryffindorScoreDiv = document.getElementById('gryffindor-score');
-        gryffindorScoreDiv.innerText = data.record.houses.Gryffindor;
+        points['gryffindor'] = data.record.houses.Gryffindor;
         const hufflepuffScoreDiv = document.getElementById('hufflepuff-score');
-        hufflepuffScoreDiv.innerText = data.record.houses.Hufflepuff;
+        points['hufflepuff']  = data.record.houses.Hufflepuff;
         const ravenclawScoreDiv = document.getElementById('ravenclaw-score');
-        ravenclawScoreDiv.innerText = data.record.houses.Ravenclaw;
+        points['ravenclaw']  = data.record.houses.Ravenclaw;
         const slytherinScoreDiv = document.getElementById('slytherin-score');
-        slytherinScoreDiv.innerText = data.record.houses.Slytherin;
+        points['slytherin']  = data.record.houses.Slytherin;
         updateBars();
       })
       .catch(error => {
