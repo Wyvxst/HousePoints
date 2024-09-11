@@ -221,20 +221,20 @@
     <!-- Controls for House Leaders only -->
     <div id="leader-controls" class="controls">
       <div>
-        <button onclick="addPoints('gryffindor', -10)">-</button>
-        <button onclick="addPoints('gryffindor', 10)">+</button>
+        <button id="G-10" onclick="addPoints('gryffindor', -10)">-</button>
+        <button id="G+10" onclick="addPoints('gryffindor', 10)">+</button>
       </div>
       <div>
-        <button onclick="addPoints('hufflepuff', -10)">-</button>
-        <button onclick="addPoints('hufflepuff', 10)">+</button>
+        <button id="H-10" onclick="addPoints('hufflepuff', -10)">-</button>
+        <button id="H+10" onclick="addPoints('hufflepuff', 10)">+</button>
       </div>
       <div>
-        <button onclick="addPoints('ravenclaw', -10)">-</button>
-        <button onclick="addPoints('ravenclaw', 10)">+</button>
+        <button id="R-10" onclick="addPoints('ravenclaw', -10)">-</button>
+        <button id="R+10" onclick="addPoints('ravenclaw', 10)">+</button>
       </div>
       <div>
-        <button onclick="addPoints('slytherin', -10)">-</button>
-        <button onclick="addPoints('slytherin', 10)">+</button>
+        <button id="S-10" onclick="addPoints('slytherin', -10)">-</button>
+        <button id="S+10" onclick="addPoints('slytherin', 10)">+</button>
       </div>
     </div>
   </div>
@@ -272,6 +272,14 @@
       points[house] += pointsToAdd;
       points[house] = Math.max(0, points[house]); // Ensure points don't go below zero
       updateBars();
+        const gryffindorMinus = document.getElementById('G-10');
+        const gryffindorPlus = document.getElementById('G+10');
+        const hufflepuffMinus = document.getElementById('H-10');
+        const hufflepuffPlus = document.getElementById('H+10');
+        const ravenclawMinus = document.getElementById('R-10');
+        const ravenclawPlus = document.getElementById('R+10');
+        const slytherinMinus = document.getElementById('S-10');
+        const slytherinPlus = document.getElementById('S+10');
         let req = new XMLHttpRequest();
 
         req.onreadystatechange = () => {
