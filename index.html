@@ -272,7 +272,19 @@
       points[house] += pointsToAdd;
       points[house] = Math.max(0, points[house]); // Ensure points don't go below zero
       updateBars();
-    }
+        let req = new XMLHttpRequest();
+
+        req.onreadystatechange = () => {
+          if (req.readyState == XMLHttpRequest.DONE) {
+            console.log(req.responseText);
+          }
+        };
+        
+        req.open("PUT", "https://api.jsonbin.io/v3/b/66e2088fe41b4d34e42dc83d", true);
+        req.setRequestHeader("Content-Type", "application/json");
+        req.setRequestHeader("X-Master-Key", "$2a$10$uhtnjcWgpl1Vc8HIYoeWN.8gXuKAmmlF5L6sC39lRGxF9djITQpLK");
+        req.send('{"houses": {"Gryffindor": 50, "Hufflepuff": 200, "Ravenclaw": 0, "Slytherin": 120}}');
+   }
 
     // Handle the login logic
     function showStudentView() {
