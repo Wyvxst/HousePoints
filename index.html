@@ -287,15 +287,16 @@
         const hufflepuffPoints = points['hufflepuff'];
         const ravenclawPoints = points['ravenclaw'];
         const slytherinPoints = points['slytherin'];
-        const requestBody = `{
-              "houses": {
-                 "Gryffindor": ${gryffindorPoints},
-                 "Hufflepuff": ${hufflepuffPoints},
-                 "Ravenclaw": ${ravenclawPoints},
-                 "Slytherin": ${slytherinPoints}
+        const requestBody = {
+            houses: {
+              Gryffindor: gryffindorPoints,
+              Hufflepuff: hufflepuffPoints,
+              Ravenclaw: ravenclawPoints,
+              Slytherin: slytherinPoints
             }
-        }`;
-        req.send(requestBody);
+          };
+
+          req.send(JSON.stringify(requestBody));
 
     // Handle the login logic
     function showStudentView() {
