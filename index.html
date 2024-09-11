@@ -283,8 +283,15 @@
         req.open("PUT", "https://api.jsonbin.io/v3/b/66e2088fe41b4d34e42dc83d", true);
         req.setRequestHeader("Content-Type", "application/json");
         req.setRequestHeader("X-Master-Key", "$2a$10$uhtnjcWgpl1Vc8HIYoeWN.8gXuKAmmlF5L6sC39lRGxF9djITQpLK");
-        req.send('{"houses": {"Gryffindor": ${points['gryffindor']}, "Hufflepuff": 200, "Ravenclaw": 0, "Slytherin": 120}}');
-   }
+        const requestBody = {
+              "houses": {
+                 "Gryffindor": ${points['gryffindor']},
+                 "Hufflepuff": ${points['hufflepuff']},
+                 "Ravenclaw": ${points['ravenclaw']},
+                 "Slytherin": ${points['slytherin']}
+            }
+        };
+        req.send(requestBody);
 
     // Handle the login logic
     function showStudentView() {
