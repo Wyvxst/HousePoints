@@ -153,6 +153,13 @@
           console.log(data);
         const gryffindorScoreDiv = document.getElementById('gryffindor-score');
         gryffindorScoreDiv.innerText = data.record.houses.Gryffindor;
+        const hufflepuffScoreDiv = document.getElementById('hufflepuff-score');
+        hufflepuffScoreDiv.innerText = data.record.houses.Hufflepuff;
+        const ravenclawScoreDiv = document.getElementById('ravenclaw-score');
+        ravenclawScoreDiv.innerText = data.record.houses.Ravenclaw;
+        const slytherinclawScoreDiv = document.getElementById('slytherin-score');
+        slytherinScoreDiv.innerText = data.record.houses.Slytherin;
+        updateBars();
       })
       .catch(error => {
           console.error('There has been a problem with your fetch operation:', error);
