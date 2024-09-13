@@ -21,18 +21,31 @@
     }
     .house {
       text-align: center;
+      position: relative; /* So the score can be positioned on top of the image */
     }
     .house img {
       width: 80px;
       margin-bottom: 10px;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5); /* Adding drop shadow to the images */
+    }
+    .score {
+      font-weight: bold;
+      font-size: 24px;
+      color: #f0f0f0;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Adding stroke to make it visible */
+      position: absolute;
+      top: -30px; /* Positioning above the house crests */
+      left: 50%;
+      transform: translateX(-50%);
     }
     .bar {
-      width: 100px;
-      background-color: #d3d3d3;
+      width: 50px; /* Narrower bar */
+      background-color: #333; /* Dark grey background for the unfilled portion */
       border-radius: 10px;
       overflow: hidden;
       position: relative;
-      height: 200px;
+      height: 300px; /* Taller bar */
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5); /* Adding drop shadow to the bar */
     }
     .bar > div {
       position: absolute;
@@ -42,20 +55,21 @@
     }
     /* House colors */
     #gryffindor-bar > div {
-      background-color: #ae0001;
+      background-color: #b01712; /* New Gryffindor color */
     }
     #hufflepuff-bar > div {
-      background-color: #ffdb00;
+      background-color: #d8a90e; /* New Hufflepuff color */
     }
     #ravenclaw-bar > div {
-      background-color: #000a90;
+      background-color: #015979; /* New Ravenclaw color */
     }
     #slytherin-bar > div {
-      background-color: #2a623d;
+      background-color: #10470d; /* New Slytherin color */
     }
     .controls {
       display: flex;
       justify-content: space-around;
+      margin-top: 20px; /* Some spacing for better alignment */
     }
     button {
       padding: 8px 12px;
@@ -69,12 +83,6 @@
     }
     button:hover {
       background-color: #555;
-    }
-    .score {
-      margin-bottom: 10px;
-      font-weight: bold;
-      font-size: 24px;
-      color: #f0f0f0; /* White color for numbers to contrast with the dark background */
     }
     /* Hide the app by default until login */
     #app, #leader-controls {
