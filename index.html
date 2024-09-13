@@ -22,11 +22,13 @@
     .house {
       text-align: center;
       position: relative; /* So the score can be positioned on top of the image */
+      display: flex;
+      flex-direction: column;
+      align-items: center; /* Centering the bars */
     }
     .house img {
       width: 80px;
       margin-bottom: 10px;
-      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5); /* Adding drop shadow to the images */
     }
     .score {
       font-weight: bold;
@@ -34,7 +36,7 @@
       color: #f0f0f0;
       text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Adding stroke to make it visible */
       position: absolute;
-      top: -30px; /* Positioning above the house crests */
+      top: 25px; /* Overlay on top of the house crests */
       left: 50%;
       transform: translateX(-50%);
     }
