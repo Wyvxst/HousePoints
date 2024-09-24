@@ -175,6 +175,26 @@
           console.error('There has been a problem with your fetch operation:', error);
       });
     };
+ // Function to update the bars
+  function updateBars() {
+    // Find the maximum points value to set as a reference for scaling
+    const maxPoints = Math.max(points['gryffindor'], points['hufflepuff'], points['ravenclaw'], points['slytherin']);
+
+    // If maxPoints is zero (to prevent division by zero), set it to 1
+    const maxBarHeight = 300; // This represents the max height in pixels
+
+    Object.keys(points).forEach(house => {
+      const bar = document.getElementById(`${house}-bar`).firstElementChild;
+      const score = document.getElementById(`${house}-score`);
+
+      // Calculate the height as a percentage of maxBarHeight
+      const height = maxPoints > 0 ? (points[house] / maxPoints) * maxBarHeight : 5;
+      bar.style.height = height + 'px';
+
+      // Update the score display
+      score.textContent = points[house];
+    });
+  }
 </script>
 </head>
 <body>
