@@ -146,6 +146,13 @@
     }
   </style>
 <script>
+  const points = {
+    gryffindor: 0,
+    hufflepuff: 0,
+    ravenclaw: 0,
+    slytherin: 0
+  };
+
   window.onload = function() {
     fetch('https://api.jsonbin.io/v3/b/66e2088fe41b4d34e42dc83d/latest', {
       method: 'GET',
@@ -153,28 +160,46 @@
         'X-Master-Key': '$2a$10$uhtnjcWgpl1Vc8HIYoeWN.8gXuKAmmlF5L6sC39lRGxF9djITQpLK'
       }
     })
-      .then(response => {
-          if (!response.ok) {
-              throw new Error('Network response was not ok');
-          }
-          return response.json();
-      })
-      .then(data => {
-          console.log(data);
-        const gryffindorScoreDiv = document.getElementById('gryffindor-score');
-        points['gryffindor'] = data.record.houses.Gryffindor;
-        const hufflepuffScoreDiv = document.getElementById('hufflepuff-score');
-        points['hufflepuff']  = data.record.houses.Hufflepuff;
-        const ravenclawScoreDiv = document.getElementById('ravenclaw-score');
-        points['ravenclaw']  = data.record.houses.Ravenclaw;
-        const slytherinScoreDiv = document.getElementById('slytherin-score');
-        points['slytherin']  = data.record.houses.Slytherin;
-        updateBars();
-      })
-      .catch(error => {
-          console.error('There has been a problem with your fetch operation:', error);
-      });
-    };
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log(data);
+
+      // Updating points object with values from the fetched data
+      points['gryffindor'] = data.record.houses.Gryffindor;
+      points['hufflepuff'] = data.record.houses.Hufflepuff;
+      points['ravenclaw'] = data.record.houses.Ravenclaw;
+      points['slytherin'] = data.record.houses.Slytherin;
+
+      // Update maxPoints based on the highest value among the houses
+      updateBars();
+    })
+    .catch(error => {
+      console.error('There has been a problem with your fetch operation:', error);
+    });
+  };
+
+  // Function to update the bars
+  function updateBars() {
+    // Determine the highest points value to set the maxPoints for scaling
+    const maxPoints = Math.max(points['gryffindor'], points['hufflepuff'], points['ravenclaw'], points['slytherin']);
+
+    Object.keys(points).forEach(house => {
+      const bar = document.getElementById(`${house}-bar`).firstElementChild;
+      const score = document.getElementById(`${house}-score`);
+
+      // Calculate the height based on the maxPoints
+      const height = Math.max((points[house] / maxPoints) * 300, 5); // 300px is the maximum bar height
+      bar.style.height = height + 'px';
+
+      // Display the current points value
+      score.textContent = points[house];
+    });
+  }
 </script>
 </head>
 <body>
