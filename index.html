@@ -259,24 +259,25 @@
 
     let maxPoints = 200; // Starting max points
 
-    function updateBars() {
-      Object.keys(points).forEach(house => {
-        const bar = document.getElementById(`${house}-bar`).firstElementChild;
-        const score = document.getElementById(`${house}-score`);
-        const maxBarHeight = 200; // Maximum height of the bar
+     function updateBars() {
+    // Find the maximum points value to set as a reference for scaling
+    const maxPoints = Math.max(points['gryffindor'], points['hufflepuff'], points['ravenclaw'], points['slytherin']);
 
-        // Adjust maxPoints if any house exceeds it
-        if (points[house] > maxPoints) {
-          maxPoints = points[house];
-        }
+    // If maxPoints is zero (to prevent division by zero), set it to 1
+    const maxBarHeight = 300; // This represents the max height in pixels
 
-        // Ensure the bars always have a minimum height for visibility
-        const height = Math.max((points[house] / maxPoints) * maxBarHeight, 5); // Minimum height of 5px
-        bar.style.height = height + 'px';
+    Object.keys(points).forEach(house => {
+      const bar = document.getElementById(`${house}-bar`).firstElementChild;
+      const score = document.getElementById(`${house}-score`);
 
-        score.textContent = points[house]; // Display current points above the bar
-      });
-    }
+      // Calculate the height as a percentage of maxBarHeight
+      const height = maxPoints > 0 ? (points[house] / maxPoints) * maxBarHeight : 5;
+      bar.style.height = height + 'px';
+
+      // Update the score display
+      score.textContent = points[house];
+    });
+  }
 
     function addPoints(house, pointsToAdd) {
       points[house] += pointsToAdd;
