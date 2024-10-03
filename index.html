@@ -144,6 +144,22 @@
     .login-arrow:hover {
       background-color: #555;
     }
+    /* Style for Reset and Confirmation Buttons */
+.login-screen-button {
+  padding: 10px 20px;
+  margin: 10px;
+  font-size: 18px;
+  font-family: 'Cinzel', serif; /* Same font as the login buttons */
+  background-color: #333;
+  color: #f0f0f0;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.login-screen-button:hover {
+  background-color: #555;
+}
   </style>
 <script>
   window.onload = function() {
@@ -249,6 +265,12 @@
     </div>
   </div>
 
+  <!-- Reset Button for House Leaders, hidden by default -->
+<div id="reset-button" style="display: none;">
+  <button onclick="showResetConfirmation()" class="login-screen-button">Reset</button>
+</div>
+  
+
   <script>
     const points = {
       gryffindor: 0,
@@ -345,15 +367,63 @@
     }
 
     function checkPassword() {
-      const password = document.getElementById('password').value;
-      if (password === 'Albus') {
-        document.getElementById('login-screen').style.display = 'none';
-        document.getElementById('app').style.display = 'block';
-        document.getElementById('leader-controls').style.display = 'flex'; // Show the controls for leaders
-      } else {
-        document.getElementById('error-message').style.display = 'block'; // Show error message
-      }
+  const password = document.getElementById('password').value;
+  if (password === 'Sock') {
+    // Hide login screen and show the app
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+
+    // Show the leader controls and reset button
+    document.getElementById('leader-controls').style.display = 'flex';
+    document.getElementById('reset-button').style.display = 'block'; // Ensure this line is present!
+  } else {
+    document.getElementById('error-message').style.display = 'block'; // Show error message
+  }
+}
+    
+    
+    // Function to change the Reset button to a confirmation stage
+function showResetConfirmation() {
+  const resetButton = document.getElementById('reset-button');
+  resetButton.innerHTML = `
+    <button onclick="resetPoints()" class="login-screen-button">Are you Certain?</button>
+  `;
+}
+
+// Function to handle the reset logic
+function resetPoints() {
+  // Reset all house points to 0
+  points['gryffindor'] = 0;
+  points['hufflepuff'] = 0;
+  points['ravenclaw'] = 0;
+  points['slytherin'] = 0;
+
+  // Update the bars
+  updateBars();
+
+  // Send reset points to the server
+  const requestBody = {
+    houses: {
+      Gryffindor: 0,
+      Hufflepuff: 0,
+      Ravenclaw: 0,
+      Slytherin: 0
     }
+  };
+
+  const req = new XMLHttpRequest();
+  req.open("PUT", "https://api.jsonbin.io/v3/b/66e2088fe41b4d34e42dc83d", true);
+  req.setRequestHeader("Content-Type", "application/json");
+  req.setRequestHeader("X-Master-Key", "$2a$10$uhtnjcWgpl1Vc8HIYoeWN.8gXuKAmmlF5L6sC39lRGxF9djITQpLK");
+  req.send(JSON.stringify(requestBody));
+
+  alert("Points have been reset!");
+
+  // Restore the original Reset button after the reset
+  resetButton.innerHTML = `
+    <button onclick="showResetConfirmation()" class="login-screen-button">Reset</button>
+  `;
+}
   </script>
 
 </body>
