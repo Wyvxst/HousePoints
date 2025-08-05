@@ -4,11 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>House Points Tracker</title>
-  <!-- Link to Google Fonts for a Harry Potter-style font -->
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap" rel="stylesheet">
   <style>
     body {
-      font-family: 'Cinzel', serif; /* Applying the magical font */
+      font-family: 'Cinzel', serif;
       text-align: center;
       background-color: #484848;
       color: #f0f0f0;
@@ -21,10 +20,10 @@
     }
     .house {
       text-align: center;
-      position: relative; /* So the score can be positioned on top of the image */
+      position: relative;
       display: flex;
       flex-direction: column;
-      align-items: center; /* Centering the bars */
+      align-items: center;
     }
     .house img {
       width: 80px;
@@ -34,20 +33,20 @@
       font-weight: bold;
       font-size: 24px;
       color: #f0f0f0;
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Adding stroke to make it visible */
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
       position: absolute;
-      top: 25px; /* Overlay on top of the house crests */
+      top: 25px;
       left: 50%;
       transform: translateX(-50%);
     }
     .bar {
-      width: 50px; /* Narrower bar */
-      background-color: #333; /* Dark grey background for the unfilled portion */
+      width: 50px;
+      background-color: #333;
       border-radius: 10px;
       overflow: hidden;
       position: relative;
-      height: 300px; /* Taller bar */
-      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5); /* Adding drop shadow to the bar */
+      height: 300px;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
     }
     .bar > div {
       position: absolute;
@@ -55,23 +54,14 @@
       width: 100%;
       border-radius: 10px 10px 0 0;
     }
-    /* House colors */
-    #gryffindor-bar > div {
-      background-color: #b01712; /* New Gryffindor color */
-    }
-    #hufflepuff-bar > div {
-      background-color: #d8a90e; /* New Hufflepuff color */
-    }
-    #ravenclaw-bar > div {
-      background-color: #015979; /* New Ravenclaw color */
-    }
-    #slytherin-bar > div {
-      background-color: #10470d; /* New Slytherin color */
-    }
+    #gryffindor-bar > div { background-color: #b01712; }
+    #hufflepuff-bar > div { background-color: #d8a90e; }
+    #ravenclaw-bar > div { background-color: #015979; }
+    #slytherin-bar > div { background-color: #10470d; }
     .controls {
       display: flex;
       justify-content: space-around;
-      margin-top: 20px; /* Some spacing for better alignment */
+      margin-top: 20px;
     }
     button {
       padding: 8px 12px;
@@ -83,34 +73,26 @@
       border-radius: 5px;
       cursor: pointer;
     }
-    button:hover {
-      background-color: #555;
-    }
-    /* Hide the app by default until login */
-    #app, #leader-controls {
-      display: none;
-    }
-    .login-screen {
-      margin-top: 50px;
-    }
+    button:hover { background-color: #555; }
+    #app, #leader-controls { display: none; }
+    .login-screen { margin-top: 50px; }
     .login-screen button {
       padding: 10px 20px;
       margin: 10px;
       font-size: 18px;
-      font-family: 'Cinzel', serif; /* Cool font for buttons */
+      font-family: 'Cinzel', serif;
     }
     .or-text {
       display: inline;
-      font-size: 14px; /* Smaller size */
-      font-family: Arial, sans-serif; /* Simpler font for 'or' */
-      margin: 0 10px; /* Space between buttons and 'or' */
+      font-size: 14px;
+      font-family: Arial, sans-serif;
+      margin: 0 10px;
     }
     .login-options {
       display: flex;
       align-items: center;
       justify-content: center;
     }
-    /* Style for password input */
     .password-input {
       font-family: 'Cinzel', serif;
       background-color: #333;
@@ -124,7 +106,7 @@
     }
     .password-container {
       display: flex;
-      align-items: center; /* Ensures alignment */
+      align-items: center;
       justify-content: center;
       margin-top: 20px;
     }
@@ -138,72 +120,54 @@
       margin-left: 10px;
       cursor: pointer;
       display: flex;
-      align-items: center; /* Aligns arrow inside button */
+      align-items: center;
       justify-content: center;
     }
-    .login-arrow:hover {
-      background-color: #555;
+    .login-arrow:hover { background-color: #555; }
+    .login-screen-button {
+      padding: 10px 20px;
+      margin: 10px;
+      font-size: 18px;
+      font-family: 'Cinzel', serif;
+      background-color: #333;
+      color: #f0f0f0;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
     }
-    /* Style for Reset and Confirmation Buttons */
-.login-screen-button {
-  padding: 10px 20px;
-  margin: 10px;
-  font-size: 18px;
-  font-family: 'Cinzel', serif; /* Same font as the login buttons */
-  background-color: #333;
-  color: #f0f0f0;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.login-screen-button:hover {
-  background-color: #555;
-}
+    .login-screen-button:hover { background-color: #555; }
   </style>
-<script>
-  window.onload = function() {
-    fetch('https://api.jsonbin.io/v3/b/66e2088fe41b4d34e42dc83d/latest', {
-      method: 'GET',
-      headers: {
-        'X-Master-Key': '$2a$10$uhtnjcWgpl1Vc8HIYoeWN.8gXuKAmmlF5L6sC39lRGxF9djITQpLK'
-      }
-    })
+  <script>
+    window.onload = function() {
+      fetch('https://api.jsonbin.io/v3/b/66e2088fe41b4d34e42dc83d/latest', {
+        method: 'GET',
+        headers: {
+          'X-Master-Key': '$2a$10$uhtnjcWgpl1Vc8HIYoeWN.8gXuKAmmlF5L6sC39lRGxF9djITQpLK'
+        }
+      })
       .then(response => {
-          if (!response.ok) {
-              throw new Error('Network response was not ok');
-          }
-          return response.json();
+        if (!response.ok) throw new Error('Network response was not ok');
+        return response.json();
       })
       .then(data => {
-          console.log(data);
-        const gryffindorScoreDiv = document.getElementById('gryffindor-score');
         points['gryffindor'] = data.record.houses.Gryffindor;
-        const hufflepuffScoreDiv = document.getElementById('hufflepuff-score');
         points['hufflepuff']  = data.record.houses.Hufflepuff;
-        const ravenclawScoreDiv = document.getElementById('ravenclaw-score');
         points['ravenclaw']  = data.record.houses.Ravenclaw;
-        const slytherinScoreDiv = document.getElementById('slytherin-score');
         points['slytherin']  = data.record.houses.Slytherin;
         updateBars();
       })
-      .catch(error => {
-          console.error('There has been a problem with your fetch operation:', error);
-      });
+      .catch(error => console.error('Fetch error:', error));
     };
   </script>
 </head>
 <body>
 
-  <!-- Login Screen -->
   <div id="login-screen" class="login-screen">
     <div class="login-options">
       <button onclick="showStudentView()">Student</button>
       <span class="or-text">or</span>
       <button onclick="showLeaderLogin()">House Leader</button>
     </div>
-
-    <!-- Password input for House Leaders -->
     <div id="leader-login" class="password-container" style="display: none;">
       <input type="password" id="password" class="password-input" placeholder="Password">
       <button class="login-arrow" onclick="checkPassword()">→</button>
@@ -211,152 +175,120 @@
     </div>
   </div>
 
-  <!-- Main App -->
   <div id="app">
     <div class="bar-container">
       <div class="house">
         <img src="https://i.imgur.com/yEJLaKM_d.webp?maxwidth=760&fidelity=grand" alt="Gryffindor Crest">
         <div class="score" id="gryffindor-score">0</div>
-        <div class="bar" id="gryffindor-bar">
-          <div></div>
-        </div>
+        <div class="bar" id="gryffindor-bar"><div></div></div>
       </div>
       <div class="house">
         <img src="https://i.imgur.com/3fPEBby_d.webp?maxwidth=760&fidelity=grand" alt="Hufflepuff Crest">
         <div class="score" id="hufflepuff-score">0</div>
-        <div class="bar" id="hufflepuff-bar">
-          <div></div>
-        </div>
+        <div class="bar" id="hufflepuff-bar"><div></div></div>
       </div>
       <div class="house">
         <img src="https://i.imgur.com/q2ZDGMS_d.webp?maxwidth=760&fidelity=grand" alt="Ravenclaw Crest">
         <div class="score" id="ravenclaw-score">0</div>
-        <div class="bar" id="ravenclaw-bar">
-          <div></div>
-        </div>
+        <div class="bar" id="ravenclaw-bar"><div></div></div>
       </div>
       <div class="house">
         <img src="https://i.imgur.com/TqEV4ii_d.webp?maxwidth=760&fidelity=grand" alt="Slytherin Crest">
         <div class="score" id="slytherin-score">0</div>
-        <div class="bar" id="slytherin-bar">
-          <div></div>
-        </div>
+        <div class="bar" id="slytherin-bar"><div></div></div>
       </div>
     </div>
 
-    <!-- Controls for House Leaders only -->
     <div id="leader-controls" class="controls">
       <div>
         <button id="G-10" onclick="addPoints('gryffindor', -10)">-</button>
         <button id="G+10" onclick="addPoints('gryffindor', 10)">+</button>
+        <button id="G+50" onclick="addPoints('gryffindor', 50)">+50</button>
       </div>
       <div>
         <button id="H-10" onclick="addPoints('hufflepuff', -10)">-</button>
         <button id="H+10" onclick="addPoints('hufflepuff', 10)">+</button>
+        <button id="H+50" onclick="addPoints('hufflepuff', 50)">+50</button>
       </div>
       <div>
         <button id="R-10" onclick="addPoints('ravenclaw', -10)">-</button>
         <button id="R+10" onclick="addPoints('ravenclaw', 10)">+</button>
+        <button id="R+50" onclick="addPoints('ravenclaw', 50)">+50</button>
       </div>
       <div>
         <button id="S-10" onclick="addPoints('slytherin', -10)">-</button>
         <button id="S+10" onclick="addPoints('slytherin', 10)">+</button>
+        <button id="S+50" onclick="addPoints('slytherin', 50)">+50</button>
       </div>
     </div>
   </div>
 
-  <!-- Reset Button for House Leaders, hidden by default -->
-<div id="reset-button" style="display: none;">
-  <button onclick="showResetConfirmation()" class="login-screen-button">Reset</button>
-</div>
-  
+  <div id="reset-button" style="display: none;">
+    <button onclick="showResetConfirmation()" class="login-screen-button">Reset</button>
+  </div>
 
   <script>
-    const points = {
-      gryffindor: 0,
-      hufflepuff: 0,
-      ravenclaw: 0,
-      slytherin: 0
-    };
+    const points = { gryffindor: 0, hufflepuff: 0, ravenclaw: 0, slytherin: 0 };
 
-    let maxPoints = 200; // Starting max points
-
-     function updateBars() {
-    // Find the maximum points value to set as a reference for scaling
-    const maxPoints = Math.max(points['gryffindor'], points['hufflepuff'], points['ravenclaw'], points['slytherin']);
-
-    // If maxPoints is zero (to prevent division by zero), set it to 1
-    const maxBarHeight = 300; // This represents the max height in pixels
-
-    Object.keys(points).forEach(house => {
-      const bar = document.getElementById(`${house}-bar`).firstElementChild;
-      const score = document.getElementById(`${house}-score`);
-
-      // Calculate the height as a percentage of maxBarHeight
-      const height = maxPoints > 0 ? (points[house] / maxPoints) * maxBarHeight : 5;
-      bar.style.height = height + 'px';
-
-      // Update the score display
-      score.textContent = points[house];
-    });
-  }
+    function updateBars() {
+      const maxPoints = Math.max(points.gryffindor, points.hufflepuff, points.ravenclaw, points.slytherin);
+      const maxBarHeight = 300;
+      Object.keys(points).forEach(house => {
+        const bar = document.getElementById(`${house}-bar`).firstElementChild;
+        const score = document.getElementById(`${house}-score`);
+        const height = maxPoints > 0 ? (points[house] / maxPoints) * maxBarHeight : 5;
+        bar.style.height = height + 'px';
+        score.textContent = points[house];
+      });
+    }
 
     function addPoints(house, pointsToAdd) {
       points[house] += pointsToAdd;
-      points[house] = Math.max(0, points[house]); // Ensure points don't go below zero
+      points[house] = Math.max(0, points[house]);
       updateBars();
-        const gryffindorMinus = document.getElementById('G-10');
-        const gryffindorPlus = document.getElementById('G+10');
-        const hufflepuffMinus = document.getElementById('H-10');
-        const hufflepuffPlus = document.getElementById('H+10');
-        const ravenclawMinus = document.getElementById('R-10');
-        const ravenclawPlus = document.getElementById('R+10');
-        const slytherinMinus = document.getElementById('S-10');
-        const slytherinPlus = document.getElementById('S+10');
-        gryffindorMinus.disabled = true;
-        hufflepuffMinus.disabled = true;
-        ravenclawMinus.disabled = true;
-        slytherinMinus.disabled = true;
-        gryffindorPlus.disabled = true;
-        hufflepuffPlus.disabled = true;
-        ravenclawPlus.disabled = true;
-        slytherinPlus.disabled = true;
-        let req = new XMLHttpRequest();
 
-        req.onreadystatechange = () => {
-          if (req.readyState == XMLHttpRequest.DONE) {
-            console.log(req.responseText);
-            gryffindorMinus.disabled = false;
-            hufflepuffMinus.disabled = false;
-            ravenclawMinus.disabled = false;
-            slytherinMinus.disabled = false;
-            gryffindorPlus.disabled = false;
-            hufflepuffPlus.disabled = false;
-            ravenclawPlus.disabled = false;
-            slytherinPlus.disabled = false;
-          }
-        };
-        
-        req.open("PUT", "https://api.jsonbin.io/v3/b/66e2088fe41b4d34e42dc83d", true);
-        req.setRequestHeader("Content-Type", "application/json");
-        req.setRequestHeader("X-Master-Key", "$2a$10$uhtnjcWgpl1Vc8HIYoeWN.8gXuKAmmlF5L6sC39lRGxF9djITQpLK");
-        const gryffindorPoints = points['gryffindor'];
-        const hufflepuffPoints = points['hufflepuff'];
-        const ravenclawPoints = points['ravenclaw'];
-        const slytherinPoints = points['slytherin'];
-        const requestBody = {
-            houses: {
-              Gryffindor: gryffindorPoints,
-              Hufflepuff: hufflepuffPoints,
-              Ravenclaw: ravenclawPoints,
-              Slytherin: slytherinPoints
-            }
-          };
+      const gryffindorMinus = document.getElementById('G-10');
+      const gryffindorPlus = document.getElementById('G+10');
+      const gryffindor50 = document.getElementById('G+50');
+      const hufflepuffMinus = document.getElementById('H-10');
+      const hufflepuffPlus = document.getElementById('H+10');
+      const hufflepuff50 = document.getElementById('H+50');
+      const ravenclawMinus = document.getElementById('R-10');
+      const ravenclawPlus = document.getElementById('R+10');
+      const ravenclaw50 = document.getElementById('R+50');
+      const slytherinMinus = document.getElementById('S-10');
+      const slytherinPlus = document.getElementById('S+10');
+      const slytherin50 = document.getElementById('S+50');
 
-          req.send(JSON.stringify(requestBody));
+      gryffindorMinus.disabled = gryffindorPlus.disabled = gryffindor50.disabled =
+      hufflepuffMinus.disabled = hufflepuffPlus.disabled = hufflepuff50.disabled =
+      ravenclawMinus.disabled = ravenclawPlus.disabled = ravenclaw50.disabled =
+      slytherinMinus.disabled = slytherinPlus.disabled = slytherin50.disabled = true;
+
+      let req = new XMLHttpRequest();
+      req.onreadystatechange = () => {
+        if (req.readyState == XMLHttpRequest.DONE) {
+          gryffindorMinus.disabled = gryffindorPlus.disabled = gryffindor50.disabled =
+          hufflepuffMinus.disabled = hufflepuffPlus.disabled = hufflepuff50.disabled =
+          ravenclawMinus.disabled = ravenclawPlus.disabled = ravenclaw50.disabled =
+          slytherinMinus.disabled = slytherinPlus.disabled = slytherin50.disabled = false;
+        }
+      };
+
+      req.open("PUT", "https://api.jsonbin.io/v3/b/66e2088fe41b4d34e42dc83d", true);
+      req.setRequestHeader("Content-Type", "application/json");
+      req.setRequestHeader("X-Master-Key", "$2a$10$uhtnjcWgpl1Vc8HIYoeWN.8gXuKAmmlF5L6sC39lRGxF9djITQpLK");
+      const requestBody = {
+        houses: {
+          Gryffindor: points.gryffindor,
+          Hufflepuff: points.hufflepuff,
+          Ravenclaw: points.ravenclaw,
+          Slytherin: points.slytherin
+        }
+      };
+      req.send(JSON.stringify(requestBody));
     }
-    
-    // Handle the login logic
+
     function showStudentView() {
       document.getElementById('login-screen').style.display = 'none';
       document.getElementById('app').style.display = 'block';
@@ -367,64 +299,34 @@
     }
 
     function checkPassword() {
-  const password = document.getElementById('password').value;
-  if (password === 'Sock') {
-    // Hide login screen and show the app
-    document.getElementById('login-screen').style.display = 'none';
-    document.getElementById('app').style.display = 'block';
-
-    // Show the leader controls and reset button
-    document.getElementById('leader-controls').style.display = 'flex';
-    document.getElementById('reset-button').style.display = 'block'; // Ensure this line is present!
-  } else {
-    document.getElementById('error-message').style.display = 'block'; // Show error message
-  }
-}
-    
-    
-    // Function to change the Reset button to a confirmation stage
-function showResetConfirmation() {
-  const resetButton = document.getElementById('reset-button');
-  resetButton.innerHTML = `
-    <button onclick="resetPoints()" class="login-screen-button">Are you Certain?</button>
-  `;
-}
-
-// Function to handle the reset logic
-function resetPoints() {
-  // Reset all house points to 0
-  points['gryffindor'] = 0;
-  points['hufflepuff'] = 0;
-  points['ravenclaw'] = 0;
-  points['slytherin'] = 0;
-
-  // Update the bars
-  updateBars();
-
-  // Send reset points to the server
-  const requestBody = {
-    houses: {
-      Gryffindor: 0,
-      Hufflepuff: 0,
-      Ravenclaw: 0,
-      Slytherin: 0
+      const password = document.getElementById('password').value;
+      if (password === 'Sock') {
+        document.getElementById('login-screen').style.display = 'none';
+        document.getElementById('app').style.display = 'block';
+        document.getElementById('leader-controls').style.display = 'flex';
+        document.getElementById('reset-button').style.display = 'block';
+      } else {
+        document.getElementById('error-message').style.display = 'block';
+      }
     }
-  };
 
-  const req = new XMLHttpRequest();
-  req.open("PUT", "https://api.jsonbin.io/v3/b/66e2088fe41b4d34e42dc83d", true);
-  req.setRequestHeader("Content-Type", "application/json");
-  req.setRequestHeader("X-Master-Key", "$2a$10$uhtnjcWgpl1Vc8HIYoeWN.8gXuKAmmlF5L6sC39lRGxF9djITQpLK");
-  req.send(JSON.stringify(requestBody));
+    function showResetConfirmation() {
+      const resetButton = document.getElementById('reset-button');
+      resetButton.innerHTML = `<button onclick="resetPoints()" class="login-screen-button">Are you Certain?</button>`;
+    }
 
-  alert("Points have been reset!");
-
-  // Restore the original Reset button after the reset
-  resetButton.innerHTML = `
-    <button onclick="showResetConfirmation()" class="login-screen-button">Reset</button>
-  `;
-}
+    function resetPoints() {
+      points.gryffindor = points.hufflepuff = points.ravenclaw = points.slytherin = 0;
+      updateBars();
+      const requestBody = { houses: { Gryffindor: 0, Hufflepuff: 0, Ravenclaw: 0, Slytherin: 0 } };
+      const req = new XMLHttpRequest();
+      req.open("PUT", "https://api.jsonbin.io/v3/b/66e2088fe41b4d34e42dc83d", true);
+      req.setRequestHeader("Content-Type", "application/json");
+      req.setRequestHeader("X-Master-Key", "$2a$10$uhtnjcWgpl1Vc8HIYoeWN.8gXuKAmmlF5L6sC39lRGxF9djITQpLK");
+      req.send(JSON.stringify(requestBody));
+      alert("Points have been reset!");
+      resetButton.innerHTML = `<button onclick="showResetConfirmation()" class="login-screen-button">Reset</button>`;
+    }
   </script>
-
 </body>
 </html>
