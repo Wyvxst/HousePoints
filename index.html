@@ -17,6 +17,7 @@
       display: flex;
       justify-content: space-around;
       margin-bottom: 30px;
+      flex-wrap: wrap;
     }
     .house {
       text-align: center;
@@ -58,14 +59,34 @@
     #hufflepuff-bar > div { background-color: #d8a90e; }
     #ravenclaw-bar > div { background-color: #015979; }
     #slytherin-bar > div { background-color: #10470d; }
+
+    /* Controls layout */
     .controls {
       display: flex;
       justify-content: space-around;
       margin-top: 20px;
+      flex-wrap: wrap;
     }
+    .house-controls {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .small-buttons {
+      display: flex;
+      gap: 5px;
+    }
+    .small-buttons button {
+      flex: 1;
+    }
+    .wide-button {
+      width: calc(100% + 5px); /* Match combined width of the - and + buttons */
+      margin-top: 5px;
+    }
+
     button {
       padding: 8px 12px;
-      margin: 5px;
+      margin: 0;
       font-size: 16px;
       background-color: #333;
       color: #f0f0f0;
@@ -75,6 +96,8 @@
     }
     button:hover { background-color: #555; }
     #app, #leader-controls { display: none; }
+
+    /* Login screen styling */
     .login-screen { margin-top: 50px; }
     .login-screen button {
       padding: 10px 20px;
@@ -141,9 +164,7 @@
     window.onload = function() {
       fetch('https://api.jsonbin.io/v3/b/66e2088fe41b4d34e42dc83d/latest', {
         method: 'GET',
-        headers: {
-          'X-Master-Key': '$2a$10$uhtnjcWgpl1Vc8HIYoeWN.8gXuKAmmlF5L6sC39lRGxF9djITQpLK'
-        }
+        headers: { 'X-Master-Key': '$2a$10$uhtnjcWgpl1Vc8HIYoeWN.8gXuKAmmlF5L6sC39lRGxF9djITQpLK' }
       })
       .then(response => {
         if (!response.ok) throw new Error('Network response was not ok');
@@ -162,6 +183,7 @@
 </head>
 <body>
 
+  <!-- Login -->
   <div id="login-screen" class="login-screen">
     <div class="login-options">
       <button onclick="showStudentView()">Student</button>
@@ -175,54 +197,65 @@
     </div>
   </div>
 
+  <!-- App -->
   <div id="app">
     <div class="bar-container">
       <div class="house">
-        <img src="https://i.imgur.com/yEJLaKM_d.webp?maxwidth=760&fidelity=grand" alt="Gryffindor Crest">
+        <img src="https://i.imgur.com/yEJLaKM_d.webp" alt="Gryffindor Crest">
         <div class="score" id="gryffindor-score">0</div>
         <div class="bar" id="gryffindor-bar"><div></div></div>
       </div>
       <div class="house">
-        <img src="https://i.imgur.com/3fPEBby_d.webp?maxwidth=760&fidelity=grand" alt="Hufflepuff Crest">
+        <img src="https://i.imgur.com/3fPEBby_d.webp" alt="Hufflepuff Crest">
         <div class="score" id="hufflepuff-score">0</div>
         <div class="bar" id="hufflepuff-bar"><div></div></div>
       </div>
       <div class="house">
-        <img src="https://i.imgur.com/q2ZDGMS_d.webp?maxwidth=760&fidelity=grand" alt="Ravenclaw Crest">
+        <img src="https://i.imgur.com/q2ZDGMS_d.webp" alt="Ravenclaw Crest">
         <div class="score" id="ravenclaw-score">0</div>
         <div class="bar" id="ravenclaw-bar"><div></div></div>
       </div>
       <div class="house">
-        <img src="https://i.imgur.com/TqEV4ii_d.webp?maxwidth=760&fidelity=grand" alt="Slytherin Crest">
+        <img src="https://i.imgur.com/TqEV4ii_d.webp" alt="Slytherin Crest">
         <div class="score" id="slytherin-score">0</div>
         <div class="bar" id="slytherin-bar"><div></div></div>
       </div>
     </div>
 
+    <!-- Leader Controls -->
     <div id="leader-controls" class="controls">
-      <div>
-        <button id="G-10" onclick="addPoints('gryffindor', -10)">-</button>
-        <button id="G+10" onclick="addPoints('gryffindor', 10)">+</button>
-        <button id="G+50" onclick="addPoints('gryffindor', 50)">+50</button>
+      <div class="house-controls">
+        <div class="small-buttons">
+          <button id="G-10" onclick="addPoints('gryffindor', -10)">-</button>
+          <button id="G+10" onclick="addPoints('gryffindor', 10)">+</button>
+        </div>
+        <button id="G+50" class="wide-button" onclick="addPoints('gryffindor', 50)">+50</button>
       </div>
-      <div>
-        <button id="H-10" onclick="addPoints('hufflepuff', -10)">-</button>
-        <button id="H+10" onclick="addPoints('hufflepuff', 10)">+</button>
-        <button id="H+50" onclick="addPoints('hufflepuff', 50)">+50</button>
+      <div class="house-controls">
+        <div class="small-buttons">
+          <button id="H-10" onclick="addPoints('hufflepuff', -10)">-</button>
+          <button id="H+10" onclick="addPoints('hufflepuff', 10)">+</button>
+        </div>
+        <button id="H+50" class="wide-button" onclick="addPoints('hufflepuff', 50)">+50</button>
       </div>
-      <div>
-        <button id="R-10" onclick="addPoints('ravenclaw', -10)">-</button>
-        <button id="R+10" onclick="addPoints('ravenclaw', 10)">+</button>
-        <button id="R+50" onclick="addPoints('ravenclaw', 50)">+50</button>
+      <div class="house-controls">
+        <div class="small-buttons">
+          <button id="R-10" onclick="addPoints('ravenclaw', -10)">-</button>
+          <button id="R+10" onclick="addPoints('ravenclaw', 10)">+</button>
+        </div>
+        <button id="R+50" class="wide-button" onclick="addPoints('ravenclaw', 50)">+50</button>
       </div>
-      <div>
-        <button id="S-10" onclick="addPoints('slytherin', -10)">-</button>
-        <button id="S+10" onclick="addPoints('slytherin', 10)">+</button>
-        <button id="S+50" onclick="addPoints('slytherin', 50)">+50</button>
+      <div class="house-controls">
+        <div class="small-buttons">
+          <button id="S-10" onclick="addPoints('slytherin', -10)">-</button>
+          <button id="S+10" onclick="addPoints('slytherin', 10)">+</button>
+        </div>
+        <button id="S+50" class="wide-button" onclick="addPoints('slytherin', 50)">+50</button>
       </div>
     </div>
   </div>
 
+  <!-- Reset -->
   <div id="reset-button" style="display: none;">
     <button onclick="showResetConfirmation()" class="login-screen-button">Reset</button>
   </div>
@@ -247,60 +280,44 @@
       points[house] = Math.max(0, points[house]);
       updateBars();
 
-      const gryffindorMinus = document.getElementById('G-10');
-      const gryffindorPlus = document.getElementById('G+10');
-      const gryffindor50 = document.getElementById('G+50');
-      const hufflepuffMinus = document.getElementById('H-10');
-      const hufflepuffPlus = document.getElementById('H+10');
-      const hufflepuff50 = document.getElementById('H+50');
-      const ravenclawMinus = document.getElementById('R-10');
-      const ravenclawPlus = document.getElementById('R+10');
-      const ravenclaw50 = document.getElementById('R+50');
-      const slytherinMinus = document.getElementById('S-10');
-      const slytherinPlus = document.getElementById('S+10');
-      const slytherin50 = document.getElementById('S+50');
+      const controls = [
+        'G-10', 'G+10', 'G+50',
+        'H-10', 'H+10', 'H+50',
+        'R-10', 'R+10', 'R+50',
+        'S-10', 'S+10', 'S+50'
+      ].map(id => document.getElementById(id));
 
-      gryffindorMinus.disabled = gryffindorPlus.disabled = gryffindor50.disabled =
-      hufflepuffMinus.disabled = hufflepuffPlus.disabled = hufflepuff50.disabled =
-      ravenclawMinus.disabled = ravenclawPlus.disabled = ravenclaw50.disabled =
-      slytherinMinus.disabled = slytherinPlus.disabled = slytherin50.disabled = true;
+      controls.forEach(btn => btn.disabled = true);
 
       let req = new XMLHttpRequest();
       req.onreadystatechange = () => {
         if (req.readyState == XMLHttpRequest.DONE) {
-          gryffindorMinus.disabled = gryffindorPlus.disabled = gryffindor50.disabled =
-          hufflepuffMinus.disabled = hufflepuffPlus.disabled = hufflepuff50.disabled =
-          ravenclawMinus.disabled = ravenclawPlus.disabled = ravenclaw50.disabled =
-          slytherinMinus.disabled = slytherinPlus.disabled = slytherin50.disabled = false;
+          controls.forEach(btn => btn.disabled = false);
         }
       };
 
       req.open("PUT", "https://api.jsonbin.io/v3/b/66e2088fe41b4d34e42dc83d", true);
       req.setRequestHeader("Content-Type", "application/json");
       req.setRequestHeader("X-Master-Key", "$2a$10$uhtnjcWgpl1Vc8HIYoeWN.8gXuKAmmlF5L6sC39lRGxF9djITQpLK");
-      const requestBody = {
+      req.send(JSON.stringify({
         houses: {
           Gryffindor: points.gryffindor,
           Hufflepuff: points.hufflepuff,
           Ravenclaw: points.ravenclaw,
           Slytherin: points.slytherin
         }
-      };
-      req.send(JSON.stringify(requestBody));
+      }));
     }
 
     function showStudentView() {
       document.getElementById('login-screen').style.display = 'none';
       document.getElementById('app').style.display = 'block';
     }
-
     function showLeaderLogin() {
       document.getElementById('leader-login').style.display = 'flex';
     }
-
     function checkPassword() {
-      const password = document.getElementById('password').value;
-      if (password === 'Sock') {
+      if (document.getElementById('password').value === 'Sock') {
         document.getElementById('login-screen').style.display = 'none';
         document.getElementById('app').style.display = 'block';
         document.getElementById('leader-controls').style.display = 'flex';
@@ -309,23 +326,21 @@
         document.getElementById('error-message').style.display = 'block';
       }
     }
-
     function showResetConfirmation() {
-      const resetButton = document.getElementById('reset-button');
-      resetButton.innerHTML = `<button onclick="resetPoints()" class="login-screen-button">Are you Certain?</button>`;
+      document.getElementById('reset-button').innerHTML =
+        `<button onclick="resetPoints()" class="login-screen-button">Are you Certain?</button>`;
     }
-
     function resetPoints() {
       points.gryffindor = points.hufflepuff = points.ravenclaw = points.slytherin = 0;
       updateBars();
-      const requestBody = { houses: { Gryffindor: 0, Hufflepuff: 0, Ravenclaw: 0, Slytherin: 0 } };
       const req = new XMLHttpRequest();
       req.open("PUT", "https://api.jsonbin.io/v3/b/66e2088fe41b4d34e42dc83d", true);
       req.setRequestHeader("Content-Type", "application/json");
       req.setRequestHeader("X-Master-Key", "$2a$10$uhtnjcWgpl1Vc8HIYoeWN.8gXuKAmmlF5L6sC39lRGxF9djITQpLK");
-      req.send(JSON.stringify(requestBody));
+      req.send(JSON.stringify({ houses: { Gryffindor: 0, Hufflepuff: 0, Ravenclaw: 0, Slytherin: 0 } }));
       alert("Points have been reset!");
-      resetButton.innerHTML = `<button onclick="showResetConfirmation()" class="login-screen-button">Reset</button>`;
+      document.getElementById('reset-button').innerHTML =
+        `<button onclick="showResetConfirmation()" class="login-screen-button">Reset</button>`;
     }
   </script>
 </body>
