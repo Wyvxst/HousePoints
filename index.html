@@ -26,6 +26,7 @@
       flex-direction: column;
       align-items: center;
       cursor: pointer;
+      -webkit-tap-highlight-color: transparent; /* Prevent Android/Chrome highlight */
     }
     .house img {
       width: 80px;
@@ -57,7 +58,7 @@
       border-radius: 10px 10px 0 0;
     }
     #gryffindor-bar > div { background-color: #b01712; }
-    #hufflepuff-bar > div { background-color: #d8a90e; }
+    #hufflepuff-bar > div { background-color: #c49a0c; } /* Slightly deeper yellow */
     #ravenclaw-bar > div { background-color: #015979; }
     #slytherin-bar > div { background-color: #10470d; }
 
@@ -242,14 +243,14 @@
       cursor: pointer;
     }
 
-    /* House colour variants */
-    .gryffindor-modal { background-color: #b01712; color: #fff; }
+    /* House colour variants with softened text */
+    .gryffindor-modal { background-color: #b01712; color: #e0e0e0; }
     .gryffindor-modal h2 { color: #7a0f0b; }
-    .hufflepuff-modal { background-color: #d8a90e; color: #222; }
-    .hufflepuff-modal h2 { color: #a87e0b; }
-    .ravenclaw-modal { background-color: #015979; color: #fff; }
+    .hufflepuff-modal { background-color: #c49a0c; color: #e0e0e0; }
+    .hufflepuff-modal h2 { color: #7f6509; }
+    .ravenclaw-modal { background-color: #015979; color: #e0e0e0; }
     .ravenclaw-modal h2 { color: #01394d; }
-    .slytherin-modal { background-color: #10470d; color: #fff; }
+    .slytherin-modal { background-color: #10470d; color: #e0e0e0; }
     .slytherin-modal h2 { color: #082c07; }
   </style>
   <script>
