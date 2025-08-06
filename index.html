@@ -25,6 +25,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      cursor: pointer; /* Indicate clickable */
     }
     .house img {
       width: 80px;
@@ -71,6 +72,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      margin: 0 10px;
     }
     .small-buttons {
       display: flex;
@@ -80,7 +82,7 @@
       flex: 1;
     }
     .wide-button {
-      width: 100%; /* Perfectly matches the minus and plus width */
+      width: 100%; /* Matches minus/plus combined width */
       margin-top: 5px;
     }
 
@@ -96,6 +98,25 @@
     }
     button:hover { background-color: #555; }
     #app, #leader-controls { display: none; }
+
+    /* Reset button styling */
+    #reset-button {
+      display: none;
+      margin-top: 40px; /* Separated visually */
+      max-width: 170px; /* Matches typical control width */
+      margin-left: auto;
+      margin-right: auto;
+    }
+    #reset-button button {
+      width: 100%;
+      background-color: #B22222;
+      padding: 12px;
+      font-size: 18px;
+      font-family: 'Cinzel', serif;
+    }
+    #reset-button button:hover {
+      background-color: #8B1A1A;
+    }
 
     /* Login screen styling */
     .login-screen { margin-top: 50px; }
@@ -147,22 +168,6 @@
       justify-content: center;
     }
     .login-arrow:hover { background-color: #555; }
-
-    /* Reset button styling */
-    #reset-button {
-      display: none;
-      margin-top: 40px; /* Lower the reset button for visual separation */
-    }
-    #reset-button button {
-      width: 100%; /* Full width */
-      background-color: #B22222; /* Softer red */
-      padding: 12px;
-      font-size: 18px;
-      font-family: 'Cinzel', serif;
-    }
-    #reset-button button:hover {
-      background-color: #8B1A1A; /* Darker red on hover */
-    }
   </style>
   <script>
     window.onload = function() {
@@ -183,6 +188,18 @@
       })
       .catch(error => console.error('Fetch error:', error));
     };
+
+    function showHouseMembers(house) {
+      const members = {
+        gryffindor: ["Alice", "Ben", "Cara", "David", "Ella", "Frank", "Grace", "Henry"],
+        hufflepuff: ["Ivy", "Jack", "Kara", "Leo", "Mona", "Ned", "Olivia", "Paul"],
+        ravenclaw: ["Quinn", "Rose", "Sam", "Tara", "Uma", "Vince", "Wendy", "Xander"],
+        slytherin: ["Yara", "Zane", "Adrian", "Bella", "Cole", "Dina", "Eli", "Faye"]
+      };
+      const listHTML = `<h2 style="font-family:'Cinzel',serif;">${house.charAt(0).toUpperCase() + house.slice(1)} Members</h2><ul>${members[house].map(name => `<li>${name}</li>`).join('')}</ul>`;
+      const popup = window.open("", `${house}Members`, "width=300,height=400");
+      popup.document.write(listHTML);
+    }
   </script>
 </head>
 <body>
@@ -204,22 +221,22 @@
   <!-- App -->
   <div id="app">
     <div class="bar-container">
-      <div class="house">
+      <div class="house" onclick="showHouseMembers('gryffindor')">
         <img src="https://i.imgur.com/yEJLaKM_d.webp" alt="Gryffindor Crest">
         <div class="score" id="gryffindor-score">0</div>
         <div class="bar" id="gryffindor-bar"><div></div></div>
       </div>
-      <div class="house">
+      <div class="house" onclick="showHouseMembers('hufflepuff')">
         <img src="https://i.imgur.com/3fPEBby_d.webp" alt="Hufflepuff Crest">
         <div class="score" id="hufflepuff-score">0</div>
         <div class="bar" id="hufflepuff-bar"><div></div></div>
       </div>
-      <div class="house">
+      <div class="house" onclick="showHouseMembers('ravenclaw')">
         <img src="https://i.imgur.com/q2ZDGMS_d.webp" alt="Ravenclaw Crest">
         <div class="score" id="ravenclaw-score">0</div>
         <div class="bar" id="ravenclaw-bar"><div></div></div>
       </div>
-      <div class="house">
+      <div class="house" onclick="showHouseMembers('slytherin')">
         <img src="https://i.imgur.com/TqEV4ii_d.webp" alt="Slytherin Crest">
         <div class="score" id="slytherin-score">0</div>
         <div class="bar" id="slytherin-bar"><div></div></div>
