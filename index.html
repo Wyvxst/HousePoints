@@ -183,62 +183,54 @@
       border-radius: 10px;
       width: 320px;
       max-width: 90%;
-      text-align: left;
+      position: relative;
     }
     #modal-content h2 {
       font-family: 'Cinzel', serif;
       margin-top: 0;
       padding-bottom: 5px;
+      text-align: center;
+      text-decoration: underline;
     }
     #modal-content h3 {
       font-family: 'Cinzel', serif;
       font-size: 16px;
       margin: 5px 0 10px;
     }
+    #modal-content h3 .head-name {
+      text-decoration: underline;
+    }
     #modal-content ul {
-      list-style: none;
-      padding: 0;
+      list-style-type: disc;
+      padding-left: 20px;
       margin: 0;
     }
     #modal-content li {
-      padding: 5px 0;
+      padding: 3px 0;
       font-family: 'Georgia', serif;
       font-size: 15px;
+      border-bottom: none !important;
     }
     .close-btn {
       background: none;
       border: none;
       font-size: 20px;
-      float: right;
+      position: absolute;
+      top: 8px;
+      right: 10px;
       cursor: pointer;
     }
     /* House colour variants */
-    .gryffindor-modal {
-      background-color: #b01712;
-      color: #fff;
-    }
-    .gryffindor-modal li { border-bottom: 1px solid rgba(255,255,255,0.3); }
+    .gryffindor-modal { background-color: #b01712; color: #fff; }
     .gryffindor-modal h2, .gryffindor-modal h3, .gryffindor-modal li, .gryffindor-modal .close-btn { color: #fff; }
 
-    .hufflepuff-modal {
-      background-color: #d8a90e;
-      color: #222;
-    }
-    .hufflepuff-modal li { border-bottom: 1px solid rgba(0,0,0,0.3); }
+    .hufflepuff-modal { background-color: #d8a90e; color: #222; }
     .hufflepuff-modal h2, .hufflepuff-modal h3, .hufflepuff-modal li, .hufflepuff-modal .close-btn { color: #222; }
 
-    .ravenclaw-modal {
-      background-color: #015979;
-      color: #fff;
-    }
-    .ravenclaw-modal li { border-bottom: 1px solid rgba(255,255,255,0.3); }
+    .ravenclaw-modal { background-color: #015979; color: #fff; }
     .ravenclaw-modal h2, .ravenclaw-modal h3, .ravenclaw-modal li, .ravenclaw-modal .close-btn { color: #fff; }
 
-    .slytherin-modal {
-      background-color: #10470d;
-      color: #fff;
-    }
-    .slytherin-modal li { border-bottom: 1px solid rgba(255,255,255,0.3); }
+    .slytherin-modal { background-color: #10470d; color: #fff; }
     .slytherin-modal h2, .slytherin-modal h3, .slytherin-modal li, .slytherin-modal .close-btn { color: #fff; }
   </style>
   <script>
@@ -368,7 +360,7 @@
       modal.innerHTML =
         `<button class="close-btn" onclick="closeModal()">×</button>
          <h2>${house.charAt(0).toUpperCase() + house.slice(1)}</h2>
-         <h3>House Head: ${heads[house]}</h3>
+         <h3>House Head: <span class="head-name">${heads[house]}</span></h3>
          <ul>${members[house].map(name => `<li>${name}</li>`).join('')}</ul>`;
       document.getElementById('modal-overlay').style.display = 'flex';
     }
@@ -441,20 +433,20 @@
         </div>
         <button id="R+50" class="wide-button" onclick="addPoints('ravenclaw', 50)">+50</button>
       </div>
-            <div class="house-controls">
+      <div class="house-controls">
         <div class="small-buttons">
           <button id="S-10" onclick="addPoints('slytherin', -10)">-</button>
           <button id="S+10" onclick="addPoints('slytherin', 10)">+</button>
         </div>
         <button id="S+50" class="wide-button" onclick="addPoints('slytherin', 50)">+50</button>
       </div>
-    </div> <!-- closes leader-controls -->
+    </div>
 
     <!-- Reset -->
     <div id="reset-button">
       <button onclick="showResetConfirmation()">Reset</button>
     </div>
-  </div> <!-- closes app -->
+  </div>
 
   <!-- Modal -->
   <div id="modal-overlay" onclick="closeModal()">
