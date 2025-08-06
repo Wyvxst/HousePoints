@@ -100,6 +100,23 @@
     button:hover { background-color: #555; }
     #app, #leader-controls { display: none; }
 
+    /* Reset button styling */
+    #app #reset-button {
+      display: none;
+      width: 100%;
+      margin-top: 20px;
+    }
+    #app #reset-button button {
+      width: 100%;
+      background-color: #B22222;
+      padding: 12px;
+      font-size: 18px;
+      font-family: 'Cinzel', serif;
+    }
+    #app #reset-button button:hover {
+      background-color: #8B1A1A;
+    }
+
     /* Records button styling */
     #app #records-button {
       width: 100%;
@@ -114,23 +131,6 @@
     }
     #app #records-button button:hover {
       background-color: #555;
-    }
-
-    /* Reset button styling */
-    #app #reset-button {
-      display: none;
-      margin-top: 20px;
-      width: 100%;
-    }
-    #app #reset-button button {
-      width: 100%;
-      background-color: #B22222;
-      padding: 12px;
-      font-size: 18px;
-      font-family: 'Cinzel', serif;
-    }
-    #app #reset-button button:hover {
-      background-color: #8B1A1A;
     }
 
     /* Login screen styling */
@@ -205,8 +205,11 @@
     #modal-content h2 {
       font-family: 'Cinzel', serif;
       text-align: center;
-      text-decoration: underline;
+      text-decoration: underline double;
       text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 10px;
+      text-shadow: 1px 1px 0 rgba(0,0,0,0.4);
     }
     #modal-content h3 {
       font-family: 'Georgia', serif;
@@ -228,7 +231,6 @@
       padding: 3px 0;
       font-family: 'Georgia', serif;
       font-size: 15px;
-      border-bottom: none !important;
     }
     .close-btn {
       background: none;
@@ -319,8 +321,8 @@
         document.getElementById('login-screen').style.display = 'none';
         document.getElementById('app').style.display = 'block';
         document.getElementById('leader-controls').style.display = 'flex';
-        document.getElementById('records-button').style.display = 'block';
         document.getElementById('reset-button').style.display = 'block';
+        document.getElementById('records-button').style.display = 'block';
       } else {
         document.getElementById('error-message').style.display = 'block';
       }
@@ -440,14 +442,14 @@
       </div>
     </div>
 
-    <!-- Records -->
-    <div id="records-button" style="display:none;">
-      <button onclick="window.location.href='records.html'">Records</button>
-    </div>
-
     <!-- Reset -->
     <div id="reset-button">
       <button onclick="showResetConfirmation()">Reset</button>
+    </div>
+
+    <!-- Records -->
+    <div id="records-button" style="display:none;">
+      <button onclick="window.location.href='records.html'">Records</button>
     </div>
   </div>
 
