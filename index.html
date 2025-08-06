@@ -181,7 +181,6 @@
     #modal-content {
       background: #fdf5e6; /* parchment */
       color: #2b2b2b;
-      border: 3px solid gold;
       box-shadow: 0px 0px 20px rgba(255, 215, 0, 0.6);
       padding: 20px;
       border-radius: 10px;
@@ -192,8 +191,13 @@
     #modal-content h2 {
       font-family: 'Cinzel', serif;
       margin-top: 0;
-      border-bottom: 2px solid gold;
       padding-bottom: 5px;
+    }
+    #modal-content h3 {
+      font-family: 'Cinzel', serif;
+      font-size: 16px;
+      margin: 5px 0 10px;
+      color: #333;
     }
     #modal-content ul {
       list-style: none;
@@ -202,6 +206,9 @@
     }
     #modal-content li {
       padding: 5px 0;
+      font-family: 'Georgia', serif;
+      font-size: 15px;
+      color: #4a4a4a;
       border-bottom: 1px solid #c5a253;
     }
     .close-btn {
@@ -212,6 +219,15 @@
       float: right;
       cursor: pointer;
     }
+    /* House colour variants */
+    .gryffindor-modal { border: 3px solid #b01712; }
+    .gryffindor-modal h2 { border-bottom: 2px solid #b01712; }
+    .hufflepuff-modal { border: 3px solid #d8a90e; }
+    .hufflepuff-modal h2 { border-bottom: 2px solid #d8a90e; }
+    .ravenclaw-modal { border: 3px solid #015979; }
+    .ravenclaw-modal h2 { border-bottom: 2px solid #015979; }
+    .slytherin-modal { border: 3px solid #10470d; }
+    .slytherin-modal h2 { border-bottom: 2px solid #10470d; }
   </style>
   <script>
     const points = { gryffindor: 0, hufflepuff: 0, ravenclaw: 0, slytherin: 0 };
@@ -234,7 +250,6 @@
       })
       .catch(error => console.error('Fetch error:', error));
 
-      // Allow ESC to close modal
       document.addEventListener('keydown', function(event) {
         if (event.key === "Escape") {
           closeModal();
@@ -329,12 +344,20 @@
         ravenclaw: ["Tracy Freeman", "Amy Cornish", "Hayley Reynolds", "Ruby Lee Start", "Cadance Agnew", "Oliver Clutterbuck", "Olivia Wyre", "Grace Fletcher"],
         slytherin: ["Nicola Foskett", "Yasmin Nixon", "Alison Wicks", "Rhys Foot", "Tim Balog", "India Watson"]
       };
-
-      document.getElementById('modal-content').innerHTML =
+      const heads = {
+        gryffindor: "Professor Placeholder",
+        hufflepuff: "Professor Placeholder",
+        ravenclaw: "Professor Placeholder",
+        slytherin: "Professor Placeholder"
+      };
+      const modal = document.getElementById('modal-content');
+      modal.className = '';
+      modal.classList.add(`${house}-modal`);
+      modal.innerHTML =
         `<button class="close-btn" onclick="closeModal()">×</button>
-         <h2>${house.charAt(0).toUpperCase() + house.slice(1)} Members</h2>
+         <h2>${house.charAt(0).toUpperCase() + house.slice(1)}</h2>
+         <h3>House Head: ${heads[house]}</h3>
          <ul>${members[house].map(name => `<li>${name}</li>`).join('')}</ul>`;
-
       document.getElementById('modal-overlay').style.display = 'flex';
     }
 
