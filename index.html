@@ -184,7 +184,7 @@
     }
     .login-arrow:hover { background-color: #555; }
 
-    /* Modal styling - Full house colour backgrounds */
+    /* Modal styling */
     #modal-overlay {
       display: none;
       position: fixed;
@@ -200,6 +200,7 @@
       width: 320px;
       max-width: 90%;
       position: relative;
+      text-align: left;
     }
     #modal-content h2 {
       font-family: 'Cinzel', serif;
@@ -214,6 +215,8 @@
       text-transform: lowercase;
     }
     #modal-content h3 .head-name {
+      font-family: 'Cinzel', serif;
+      text-transform: capitalize;
       text-decoration: underline;
     }
     #modal-content ul {
@@ -236,6 +239,7 @@
       right: 10px;
       cursor: pointer;
     }
+
     /* House colour variants */
     .gryffindor-modal { background-color: #b01712; color: #fff; }
     .hufflepuff-modal { background-color: #d8a90e; color: #222; }
@@ -250,21 +254,17 @@
         method: 'GET',
         headers: { 'X-Master-Key': '$2a$10$uhtnjcWgpl1Vc8HIYoeWN.8gXuKAmmlF5L6sC39lRGxF9djITQpLK' }
       })
-      .then(response => {
-        if (!response.ok) throw new Error('Network response was not ok');
-        return response.json();
-      })
+      .then(r => r.json())
       .then(data => {
         points.gryffindor = data.record.houses.Gryffindor;
         points.hufflepuff = data.record.houses.Hufflepuff;
         points.ravenclaw = data.record.houses.Ravenclaw;
         points.slytherin = data.record.houses.Slytherin;
         updateBars();
-      })
-      .catch(error => console.error('Fetch error:', error));
+      });
 
-      document.addEventListener('keydown', function(event) {
-        if (event.key === "Escape") closeModal();
+      document.addEventListener('keydown', e => {
+        if (e.key === "Escape") closeModal();
       });
     };
 
@@ -281,37 +281,30 @@
     }
 
     function addPoints(house, pointsToAdd) {
-      points[house] += pointsToAdd;
-      points[house] = Math.max(0, points[house]);
+      points[house] = Math.max(0, points[house] + pointsToAdd);
       updateBars();
 
-      const controls = [
-        'G-10', 'G+10', 'G+50',
-        'H-10', 'H+10', 'H+50',
-        'R-10', 'R+10', 'R+50',
-        'S-10', 'S+10', 'S+50'
+      const btns = [
+        'G-10','G+10','G+50',
+        'H-10','H+10','H+50',
+        'R-10','R+10','R+50',
+        'S-10','S+10','S+50'
       ].map(id => document.getElementById(id));
-
-      controls.forEach(btn => btn.disabled = true);
+      btns.forEach(b => b.disabled = true);
 
       let req = new XMLHttpRequest();
       req.onreadystatechange = () => {
-        if (req.readyState == XMLHttpRequest.DONE) {
-          controls.forEach(btn => btn.disabled = false);
-        }
+        if (req.readyState == XMLHttpRequest.DONE) btns.forEach(b => b.disabled = false);
       };
-
       req.open("PUT", "https://api.jsonbin.io/v3/b/66e2088fe41b4d34e42dc83d", true);
       req.setRequestHeader("Content-Type", "application/json");
       req.setRequestHeader("X-Master-Key", "$2a$10$uhtnjcWgpl1Vc8HIYoeWN.8gXuKAmmlF5L6sC39lRGxF9djITQpLK");
-      req.send(JSON.stringify({
-        houses: {
-          Gryffindor: points.gryffindor,
-          Hufflepuff: points.hufflepuff,
-          Ravenclaw: points.ravenclaw,
-          Slytherin: points.slytherin
-        }
-      }));
+      req.send(JSON.stringify({ houses: {
+        Gryffindor: points.gryffindor,
+        Hufflepuff: points.hufflepuff,
+        Ravenclaw: points.ravenclaw,
+        Slytherin: points.slytherin
+      }}));
     }
 
     function showStudentView() {
@@ -333,20 +326,18 @@
       }
     }
     function showResetConfirmation() {
-      document.getElementById('reset-button').innerHTML =
-        `<button onclick="resetPoints()">Are you Certain?</button>`;
+      document.getElementById('reset-button').innerHTML = `<button onclick="resetPoints()">Are you Certain?</button>`;
     }
     function resetPoints() {
       points.gryffindor = points.hufflepuff = points.ravenclaw = points.slytherin = 0;
       updateBars();
-      const req = new XMLHttpRequest();
+      let req = new XMLHttpRequest();
       req.open("PUT", "https://api.jsonbin.io/v3/b/66e2088fe41b4d34e42dc83d", true);
       req.setRequestHeader("Content-Type", "application/json");
       req.setRequestHeader("X-Master-Key", "$2a$10$uhtnjcWgpl1Vc8HIYoeWN.8gXuKAmmlF5L6sC39lRGxF9djITQpLK");
       req.send(JSON.stringify({ houses: { Gryffindor: 0, Hufflepuff: 0, Ravenclaw: 0, Slytherin: 0 } }));
       alert("Points have been reset!");
-      document.getElementById('reset-button').innerHTML =
-        `<button onclick="showResetConfirmation()">Reset</button>`;
+      document.getElementById('reset-button').innerHTML = `<button onclick="showResetConfirmation()">Reset</button>`;
     }
 
     function showHouseMembers(house) {
@@ -369,10 +360,9 @@
         `<button class="close-btn" onclick="closeModal()">×</button>
          <h2>${house.toUpperCase()}</h2>
          <h3>house head: <span class="head-name">${heads[house]}</span></h3>
-         <ul>${members[house].map(name => `<li>${name}</li>`).join('')}</ul>`;
+         <ul>${members[house].map(n => `<li>${n}</li>`).join('')}</ul>`;
       document.getElementById('modal-overlay').style.display = 'flex';
     }
-
     function closeModal() {
       document.getElementById('modal-overlay').style.display = 'none';
     }
@@ -463,9 +453,7 @@
 
   <!-- Modal -->
   <div id="modal-overlay" onclick="closeModal()">
-    <div id="modal-content" onclick="event.stopPropagation()">
-      <!-- Content is dynamically injected by showHouseMembers() -->
-    </div>
+    <div id="modal-content" onclick="event.stopPropagation()"></div>
   </div>
 
 </body>
