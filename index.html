@@ -100,58 +100,115 @@
     button:hover { background-color: #555; }
     #app, #leader-controls { display: none; }
 
-    /* Reset button styling */
-    #reset-button {
+    /* Reset button styling inside app only */
+    #app #reset-button {
       display: none;
       margin-top: 40px;
       width: 100%;
     }
-    #reset-button button {
+    #app #reset-button button {
       width: 100%;
       background-color: #B22222;
       padding: 12px;
       font-size: 18px;
       font-family: 'Cinzel', serif;
     }
-    #reset-button button:hover {
+    #app #reset-button button:hover {
       background-color: #8B1A1A;
     }
 
-    /* Modal styling */
+    /* Login screen styling */
+    .login-screen { margin-top: 50px; }
+    .login-screen button {
+      padding: 10px 20px;
+      margin: 10px;
+      font-size: 18px;
+      font-family: 'Cinzel', serif;
+    }
+    .or-text {
+      display: inline;
+      font-size: 14px;
+      font-family: Arial, sans-serif;
+      margin: 0 10px;
+    }
+    .login-options {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .password-input {
+      font-family: 'Cinzel', serif;
+      background-color: #333;
+      border: none;
+      border-radius: 5px;
+      color: #f0f0f0;
+      padding: 10px;
+      font-size: 18px;
+      width: 200px;
+      text-align: center;
+    }
+    .password-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 20px;
+    }
+    .login-arrow {
+      font-size: 24px;
+      background-color: #333;
+      color: #f0f0f0;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 15px;
+      margin-left: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .login-arrow:hover { background-color: #555; }
+
+    /* Modal styling - Hogwarts theme */
     #modal-overlay {
       display: none;
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
-      background-color: rgba(0, 0, 0, 0.8);
+      background-color: rgba(0, 0, 0, 0.85);
       z-index: 1000;
       align-items: center;
       justify-content: center;
     }
     #modal-content {
-      background-color: #333;
+      background: #fdf5e6; /* parchment */
+      color: #2b2b2b;
+      border: 3px solid gold;
+      box-shadow: 0px 0px 20px rgba(255, 215, 0, 0.6);
       padding: 20px;
       border-radius: 10px;
-      width: 300px;
+      width: 320px;
       max-width: 90%;
       text-align: left;
     }
     #modal-content h2 {
       font-family: 'Cinzel', serif;
       margin-top: 0;
+      border-bottom: 2px solid gold;
+      padding-bottom: 5px;
     }
     #modal-content ul {
       list-style: none;
       padding: 0;
+      margin: 0;
     }
     #modal-content li {
       padding: 5px 0;
-      border-bottom: 1px solid #555;
+      border-bottom: 1px solid #c5a253;
     }
     .close-btn {
       background: none;
       border: none;
       font-size: 20px;
-      color: #f0f0f0;
+      color: #2b2b2b;
       float: right;
       cursor: pointer;
     }
@@ -260,10 +317,10 @@
 
     function showHouseMembers(house) {
       const members = {
-        gryffindor: ["Alice", "Ben", "Cara", "David", "Ella", "Frank", "Grace", "Henry"],
-        hufflepuff: ["Ivy", "Jack", "Kara", "Leo", "Mona", "Ned", "Olivia", "Paul"],
-        ravenclaw: ["Quinn", "Rose", "Sam", "Tara", "Uma", "Vince", "Wendy", "Xander"],
-        slytherin: ["Yara", "Zane", "Adrian", "Bella", "Cole", "Dina", "Eli", "Faye"]
+        gryffindor: ["Emily Reynolds", "Matthew Harper", "Josh Harris", "Jade Lewis", "Mackenzie Alliston", "Olivia Hines", "Emma Hunt"],
+        hufflepuff: ["Paige Parkin", "Lois Lawes", "Sarah Hales", "Isabelle Unlu-O'Neil", "Louis Kirby", "Sam Southcott", "Tadgh Daly"],
+        ravenclaw: ["Tracy Freeman", "Amy Cornish", "Hayley Reynolds", "Ruby Lee Start", "Cadance Agnew", "Oliver Clutterbuck", "Olivia Wyre", "Grace Fletcher"],
+        slytherin: ["Nicola Foskett", "Yasmin Nixon", "Alison Wicks", "Rhys Foot", "Tim Balog", "India Watson"]
       };
 
       document.getElementById('modal-content').innerHTML =
@@ -351,17 +408,12 @@
         <button id="S+50" class="wide-button" onclick="addPoints('slytherin', 50)">+50</button>
       </div>
     </div>
-  </div>
 
-  <!-- Reset -->
-  <div id="reset-button">
-    <button onclick="showResetConfirmation()">Reset</button>
+    <!-- Reset -->
+    <div id="reset-button">
+      <button onclick="showResetConfirmation()">Reset</button>
+    </div>
   </div>
 
   <!-- Modal -->
   <div id="modal-overlay" onclick="closeModal()">
-    <div id="modal-content" onclick="event.stopPropagation()"></div>
-  </div>
-
-</body>
-</html>
