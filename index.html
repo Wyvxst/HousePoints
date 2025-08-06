@@ -233,6 +233,13 @@
         updateBars();
       })
       .catch(error => console.error('Fetch error:', error));
+
+      // Allow ESC to close modal
+      document.addEventListener('keydown', function(event) {
+        if (event.key === "Escape") {
+          closeModal();
+        }
+      });
     };
 
     function updateBars() {
@@ -405,15 +412,4 @@
           <button id="S-10" onclick="addPoints('slytherin', -10)">-</button>
           <button id="S+10" onclick="addPoints('slytherin', 10)">+</button>
         </div>
-        <button id="S+50" class="wide-button" onclick="addPoints('slytherin', 50)">+50</button>
-      </div>
-    </div>
-
-    <!-- Reset -->
-    <div id="reset-button">
-      <button onclick="showResetConfirmation()">Reset</button>
-    </div>
-  </div>
-
-  <!-- Modal -->
-  <div id="modal-overlay" onclick="closeModal()">
+        <button id="S+50" class="wide-button" onclick="addPoints('slytherin', 
