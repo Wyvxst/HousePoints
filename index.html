@@ -407,9 +407,27 @@
         </div>
         <button id="R+50" class="wide-button" onclick="addPoints('ravenclaw', 50)">+50</button>
       </div>
-      <div class="house-controls">
+            <div class="house-controls">
         <div class="small-buttons">
           <button id="S-10" onclick="addPoints('slytherin', -10)">-</button>
           <button id="S+10" onclick="addPoints('slytherin', 10)">+</button>
         </div>
-        <button id="S+50" class="wide-button" onclick="addPoints('slytherin', 
+        <button id="S+50" class="wide-button" onclick="addPoints('slytherin', 50)">+50</button>
+      </div>
+    </div> <!-- closes leader-controls -->
+
+    <!-- Reset -->
+    <div id="reset-button">
+      <button onclick="showResetConfirmation()">Reset</button>
+    </div>
+  </div> <!-- closes app -->
+
+  <!-- Modal -->
+  <div id="modal-overlay" onclick="closeModal()">
+    <div id="modal-content" onclick="event.stopPropagation()">
+      <!-- Content is dynamically injected by showHouseMembers() -->
+    </div>
+  </div>
+
+</body>
+</html>
