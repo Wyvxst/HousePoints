@@ -100,10 +100,26 @@
     button:hover { background-color: #555; }
     #app, #leader-controls { display: none; }
 
-    /* Reset button styling inside app only */
+    /* Records button styling */
+    #app #records-button {
+      width: 100%;
+      margin-top: 20px;
+    }
+    #app #records-button button {
+      width: 100%;
+      background-color: #333;
+      padding: 12px;
+      font-size: 18px;
+      font-family: 'Cinzel', serif;
+    }
+    #app #records-button button:hover {
+      background-color: #555;
+    }
+
+    /* Reset button styling */
     #app #reset-button {
       display: none;
-      margin-top: 40px;
+      margin-top: 20px;
       width: 100%;
     }
     #app #reset-button button {
@@ -187,15 +203,15 @@
     }
     #modal-content h2 {
       font-family: 'Cinzel', serif;
-      margin-top: 0;
-      padding-bottom: 5px;
       text-align: center;
       text-decoration: underline;
+      text-transform: uppercase;
     }
     #modal-content h3 {
-      font-family: 'Cinzel', serif;
+      font-family: 'Georgia', serif;
       font-size: 16px;
       margin: 5px 0 10px;
+      text-transform: lowercase;
     }
     #modal-content h3 .head-name {
       text-decoration: underline;
@@ -222,16 +238,9 @@
     }
     /* House colour variants */
     .gryffindor-modal { background-color: #b01712; color: #fff; }
-    .gryffindor-modal h2, .gryffindor-modal h3, .gryffindor-modal li, .gryffindor-modal .close-btn { color: #fff; }
-
     .hufflepuff-modal { background-color: #d8a90e; color: #222; }
-    .hufflepuff-modal h2, .hufflepuff-modal h3, .hufflepuff-modal li, .hufflepuff-modal .close-btn { color: #222; }
-
     .ravenclaw-modal { background-color: #015979; color: #fff; }
-    .ravenclaw-modal h2, .ravenclaw-modal h3, .ravenclaw-modal li, .ravenclaw-modal .close-btn { color: #fff; }
-
     .slytherin-modal { background-color: #10470d; color: #fff; }
-    .slytherin-modal h2, .slytherin-modal h3, .slytherin-modal li, .slytherin-modal .close-btn { color: #fff; }
   </style>
   <script>
     const points = { gryffindor: 0, hufflepuff: 0, ravenclaw: 0, slytherin: 0 };
@@ -246,18 +255,16 @@
         return response.json();
       })
       .then(data => {
-        points['gryffindor'] = data.record.houses.Gryffindor;
-        points['hufflepuff']  = data.record.houses.Hufflepuff;
-        points['ravenclaw']  = data.record.houses.Ravenclaw;
-        points['slytherin']  = data.record.houses.Slytherin;
+        points.gryffindor = data.record.houses.Gryffindor;
+        points.hufflepuff = data.record.houses.Hufflepuff;
+        points.ravenclaw = data.record.houses.Ravenclaw;
+        points.slytherin = data.record.houses.Slytherin;
         updateBars();
       })
       .catch(error => console.error('Fetch error:', error));
 
       document.addEventListener('keydown', function(event) {
-        if (event.key === "Escape") {
-          closeModal();
-        }
+        if (event.key === "Escape") closeModal();
       });
     };
 
@@ -319,6 +326,7 @@
         document.getElementById('login-screen').style.display = 'none';
         document.getElementById('app').style.display = 'block';
         document.getElementById('leader-controls').style.display = 'flex';
+        document.getElementById('records-button').style.display = 'block';
         document.getElementById('reset-button').style.display = 'block';
       } else {
         document.getElementById('error-message').style.display = 'block';
@@ -359,8 +367,8 @@
       modal.classList.add(`${house}-modal`);
       modal.innerHTML =
         `<button class="close-btn" onclick="closeModal()">×</button>
-         <h2>${house.charAt(0).toUpperCase() + house.slice(1)}</h2>
-         <h3>House Head: <span class="head-name">${heads[house]}</span></h3>
+         <h2>${house.toUpperCase()}</h2>
+         <h3>house head: <span class="head-name">${heads[house]}</span></h3>
          <ul>${members[house].map(name => `<li>${name}</li>`).join('')}</ul>`;
       document.getElementById('modal-overlay').style.display = 'flex';
     }
@@ -440,6 +448,11 @@
         </div>
         <button id="S+50" class="wide-button" onclick="addPoints('slytherin', 50)">+50</button>
       </div>
+    </div>
+
+    <!-- Records -->
+    <div id="records-button" style="display:none;">
+      <button onclick="window.location.href='records.html'">Records</button>
     </div>
 
     <!-- Reset -->
